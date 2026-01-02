@@ -3,7 +3,7 @@ title: "Anagnorisis. Part 2: The Music Recommendation Algorithm."
 description: This series of articles is an introduction into some ideas behind my project — [Anagnorisis](https://github.com/volotat/Anagnorisis) — completely local recommendation system.
 slug: anagnorisis-part-2-the-music-recommendation-algorithm
 date: 2024-09-22 00:00:00+0000
-image: cover.jpg
+image: AI.jpg
 categories:
     - Anagnorisis
     - Projects
@@ -28,8 +28,6 @@ In particular the mechanism looks like this:
 After the training is complete one can enjoy their music, but this time, when the music is selected it will be rated by the model (in case it was not rated by the user already) and therefore adjust the probability of it occurring in the playlist.
 
 To calculate the actual probability, the music recommendation system combines various factors — user ratings, model predictions, play history, and skips, as well as time since the last play of the song — into a mathematical formula that determines the probability of each song being selected. By balancing these influences, the system provides a personalized and dynamic music recommendation experience. Below is a more detailed explanation of the math behind the algorithm.
-
-![](AI.jpg)
 
 ## Music recommendation system
 
@@ -165,6 +163,6 @@ In this case, Song A has a 50% chance of being selected, Song B has a 12% chance
 ## Future plans
 In future I would also like to add more different options of building a current playlist. One of the ideas is a “chain mode” that takes selected by the user song as a seed and finds the most similar song, based on the embeddings, then finds the most similar to a next song and so on.
 
-In case there would be a CLIP-like model for audio in the future, I would also like to implement prompt-based playlist generation. One could simply describe the mood of the music they would like to listen and the proper playlist be generated on the fly from this description.
+In case there would be a [CLIP](https://github.com/openai/CLIP)-like model for audio in the future, I would also like to implement prompt-based playlist generation. One could simply describe the mood of the music they would like to listen and the proper playlist be generated on the fly from this description.
 
 Github: https://github.com/volotat/Anagnorisis

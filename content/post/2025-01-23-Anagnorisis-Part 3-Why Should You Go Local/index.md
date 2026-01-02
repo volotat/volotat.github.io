@@ -3,7 +3,7 @@ title: "Anagnorisis. Part 3: Why Should You Go Local?"
 description: This series of articles is an introduction into some ideas behind my project — [Anagnorisis](https://github.com/volotat/Anagnorisis) — completely local recommendation system.
 slug: anagnorisis-part-3-why-should-you-go-local
 date: 2025-01-23 00:00:00+0000
-image: cover.jpg
+image: External-Hard-Drive-Hero.png
 categories:
     - Anagnorisis
     - Projects
@@ -20,7 +20,7 @@ In today's digital age, an increasing amount of personal data is stored on cloud
 
 Moreover, data loss from cloud services is not uncommon. Service outages, cyberattacks, and policy changes can result in the sudden unavailability of personal data. For instance, breaches targeting cloud storage providers have exposed sensitive user information, emphasizing the precarious nature of entrusting data to third-party platforms.
 
-{{< figure src="External-Hard-Drive-Hero.png" caption="An external hard drive could provide up to [32TB of storage](https://www.theverge.com/2024/12/18/24324143/seagate-32tb-hamr-hard-drive) as of january 2025" >}}
+> An external hard drive could provide up to [32TB of storage](https://www.theverge.com/2024/12/18/24324143/seagate-32tb-hamr-hard-drive) as of january 2025
 
 ## Your Data as a Reflection of Your Personality
 Every digital interaction we engage in - be it social media activity, spending habits, or smartphone usage - leaves behind a [footprint](https://www.psychologicalscience.org/news/releases/spending-data-personality.html) that mirrors aspects of our personality. Similarly, patterns in smartphone usage [have been linked](https://pubmed.ncbi.nlm.nih.gov/36738137/) to the Big Five personality traits, providing insights into an individual's behavior and preferences.

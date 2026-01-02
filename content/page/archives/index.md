@@ -5,7 +5,7 @@ layout: "archives"
 slug: "articles"
 menu:
     main:
-        weight: 2
+        weight: 3
         params: 
             icon: notebook
 ---

@@ -1,0 +1,68 @@
+<article class="{{ if .Params.image }}has-image{{ end }}">
+    {{ $image := .Resources.GetMatch .Params.image }}
+    {{ if $image }}
+    <div class="article-image">
+        <a href="{{ .RelPermalink }}">
+            <img src="{{ $image.RelPermalink }}" 
+                 loading="lazy"
+                 alt="Featured image of {{ .Title }}" />
+        </a>
+    </div>
+    {{ end }}
+
+    <div class="article-details">
+        {{/* Categories at the top with custom colors */}}
+        {{ if .Params.categories }}
+        <header class="article-category">
+            {{ range .Params.categories }}
+                {{ $category := . }}
+                {{ $style := "" }}
+                
+                {{/* Look up the category page to get the style */}}
+                {{ with $.Site.GetPage (printf "/categories/%s" ($category | urlize)) }}
+                    {{ if .Params.style }}
+                        {{ $style = printf "background-color: %s; color: %s;" .Params.style.background .Params.style.color }}
+                    {{ end }}
+                {{ end }}
+
+                <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}/" style="{{ $style | safeCSS }}">
+                    {{ . }}
+                </a>
+            {{ end }}
+        </header>
+        {{ end }}
+
+        <div class="article-title-wrapper">
+            <h2 class="article-title">
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </h2>
+        </div>
+
+        <section class="article-content">
+            {{ .Content }}
+        </section>
+
+        <footer class="article-time">
+            {{/* Tags at the bottom */}}
+            {{ if .Params.tags }}
+            <div class="article-tags" style="margin-bottom: 10px;">
+                {{ range .Params.tags }}
+                    <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="tag">
+                        {{ . }}
+                    </a>
+                {{ end }}
+            </div>
+            {{ end }}
+
+            {{ if .Params.links }}
+            <div class="article-links">
+                {{ range .Params.links }}
+                <a href="{{ .url }}" target="_blank" rel="noopener" class="button">
+                    {{ .name }}
+                </a>
+                {{ end }}
+            </div>
+            {{ end }}
+        </footer>
+    </div>
+</article>
