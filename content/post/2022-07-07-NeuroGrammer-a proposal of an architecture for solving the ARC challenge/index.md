@@ -7,7 +7,7 @@ date: 2022-07-07 00:00:00+0000
 categories:
     - Ideas
 tags:
-    - ARC
+    - ARC-AGI
     - Machine Learning
 ---
 
