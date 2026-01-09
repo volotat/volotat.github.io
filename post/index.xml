@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Alexey Borsky</title><link>https://volotat.github.io/post/</link><description>Recent content in Posts on Alexey Borsky</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 21 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://volotat.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>There is a way to make training LLMs way cheaper and more accessible.</title><link>https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/</link><pubDate>Thu, 21 Aug 2025 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/</guid><description>&lt;img src="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/0_4fPJHVhCQeYNef_n.png" alt="Featured image of post There is a way to make training LLMs way cheaper and more accessible." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;What if I told you that a vast amount of the computation that goes into training every new Large Language Model is completely redundant?&lt;/p&gt;
+&lt;p&gt;This isn’t just a minor inefficiency, it’s a fundamental flaw in our current approach. We are spending billions of dollars and burning gigawatts of energy for every major AI company to teach their models the same fundamental understanding of the world, over and over again.&lt;/p&gt;
+&lt;p&gt;Here is the claim I am going to justify: &lt;strong&gt;the hardest part of what all LLMs learn is NOT next-token prediction, but rather the arbitrary data compression into a meaningful vector representation.&lt;/strong&gt; And here’s the catch — this representation is fundamentally the same for every model (up to symmetries and precision).&lt;/p&gt;
+&lt;p&gt;The work that inspires this claim is &lt;a class="link" href="https://arxiv.org/pdf/2405.07987" target="_blank" rel="noopener"
+&gt;the &lt;strong&gt;Platonic Representation Hypothesis&lt;/strong&gt;&lt;/a&gt;. This hypothesis suggests that for any given data, there exists a “perfect” or ideal mathematical representation — a Platonic form, if you will. All our current models are simply trying to find their own noisy, imperfect approximation of this one true representation.&lt;/p&gt;
+&lt;h2 id="how-a-perfect-llm-should-look"&gt;How a “Perfect” LLM Should Look
+&lt;/h2&gt;&lt;p&gt;If the Platonic Representation Hypothesis holds true, it means we’re building our models upside down. We train monolithic, end-to-end models that learn to embed data and reason about it at the same time. Instead, we should separate these concerns.&lt;/p&gt;
+&lt;p&gt;The future of efficient AI should be built on a simple, two-part architecture:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;The Universal Encoder:&lt;/strong&gt; A single, global, state-of-the-art model that does only one thing: convert any piece of data (text, images, sound, etc., in a continuous sequence) into its perfect “Platonic” vector embedding. This model would be trained once on a colossal dataset and then frozen, serving as a foundational piece of public infrastructure.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The Task Model:&lt;/strong&gt; A much smaller, specialized model that takes these “perfect” embedding (that represents all the current context window that goes to the model) as an input and learns to perform a specific task. This could be next-token prediction, classification, image denoising (for diffusion models), or even complex, one-shot reasoning like question answering or code generation. All personalization, alignment, and RLHF would happen at this much cheaper, more efficient level.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_x7iLYZUfjMjV7oNkTjRShA.png"
+width="444"
+height="532"
+srcset="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_x7iLYZUfjMjV7oNkTjRShA_hu_e5f393929ad642bc.png 480w, https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_x7iLYZUfjMjV7oNkTjRShA_hu_b60bb99d25994b49.png 1024w"
+loading="lazy"
+alt="A. — Current approach. B. — Proposed approach."
+class="gallery-image"
+data-flex-grow="83"
+data-flex-basis="200px"
+&gt;&lt;/p&gt;
+&lt;p&gt;Think of it like this: today, every AI student has to first invent an entire language from scratch — its alphabet, vocabulary, and grammar — before they can even begin to learn to write an essay. In the new paradigm, they all share a common, universal language (the Universal Embeddings) with all the world’s concepts already encoded within it. The students (the Task Models) can then focus immediately on the creative act of writing the essay. Training these task-specific models would be orders of magnitude cheaper and faster.&lt;/p&gt;
+&lt;h2 id="universal-relational-embedding-space"&gt;Universal, Relational Embedding Space
+&lt;/h2&gt;&lt;p&gt;So, how do we find these universal embeddings and represent them in a way that is stable and suitable for any task?&lt;/p&gt;
+&lt;p&gt;Right now, embeddings are encoded as a point in a very high-dimensional space. The problem is that the coordinate system of this space is set arbitrarily during the training process. This means every model has its own unique, incompatible space. Training the same model twice will generate two completely different spaces. You can’t just take an embedding from GPT-4 and use it in Gemini; their internal “languages” are different.&lt;/p&gt;
+&lt;p&gt;Recent research on the &lt;a class="link" href="https://arxiv.org/pdf/2505.12540" target="_blank" rel="noopener"
+&gt;Universal Geometry of Embeddings&lt;/a&gt; shows that while the coordinate systems are different, the underlying geometric relationships &lt;em&gt;between&lt;/em&gt; the embeddings are remarkably similar. We can remap one model’s space onto another. But this is a patch, not a solution. It proves the point: what truly matters isn’t the absolute coordinates of a concept, but its &lt;em&gt;relationships&lt;/em&gt; to all other concepts.&lt;/p&gt;
+&lt;p&gt;What we truly care about are the &lt;strong&gt;distances&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of a vector representing a point in space, what if an embedding vector represented a list of distances?&lt;/p&gt;
+&lt;p&gt;Imagine trying to describe the location of your city. You could give its absolute GPS coordinates (e.g., 46.10° N, 19.66° E). This is the current approach — precise, but meaningless without the entire GPS coordinate system.&lt;/p&gt;
+&lt;p&gt;Alternatively, you could describe it relationally: “It’s 180km from Budapest, 190km from Belgrade, 560km from Vienna…” This is a &lt;em&gt;distance-based&lt;/em&gt; representation. It’s inherently meaningful.&lt;/p&gt;
+&lt;p&gt;This is how our Universal Embedding should work. Each vector would not be a coordinate, but a list of distances to a set of universal, canonical “landmark concepts” in the embedding space.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;embedding(&amp;quot;cat&amp;quot;) = [dist_to_concept_1, dist_to_concept_2, dist_to_concept_3, ...]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_Tgc3uuUVrYti-zqfKCahSw.png"
+width="1400"
+height="700"
+srcset="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_Tgc3uuUVrYti-zqfKCahSw_hu_b7f7318b1358607c.png 480w, https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_Tgc3uuUVrYti-zqfKCahSw_hu_c5821459ded753bc.png 1024w"
+loading="lazy"
+alt="captionless image"
+class="gallery-image"
+data-flex-grow="200"
+data-flex-basis="480px"
+&gt;&lt;/p&gt;
+&lt;p&gt;We don’t even need to know what these landmark concepts are explicitly. They can be learned by the model. &lt;strong&gt;The key is that they are ordered by importance, from the most general to the most specific.&lt;/strong&gt; The first value might represent the distance to the abstract concept of “objectness,” the second to “living thing,” the tenth to “mammal,” and so on.&lt;/p&gt;
+&lt;p&gt;This structure has two incredible properties:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;It’s Stable:&lt;/strong&gt; Because it’s based on internal distances, it’s invariant to rotation or translation. Every training run would converge to the same relational representation, creating a stable and universal standard.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;It’s Inherently Composable:&lt;/strong&gt; This is very similar to the idea of &lt;a class="link" href="https://huggingface.co/papers/2205.13147" target="_blank" rel="noopener"
+&gt;Matryoshka Representation Learning&lt;/a&gt;. If you need a smaller, less precise embedding, you can just take the first N values of the vector! You’re simply using the distances to the most important landmark concepts, giving you a coarse but still highly effective representation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="we-need-the-embedding-model"&gt;We Need THE Embedding Model
+&lt;/h2&gt;&lt;p&gt;The centerpiece of this vision is the &lt;strong&gt;Universal Encoder&lt;/strong&gt;, or THE Embedding Model. This wouldn’t be just another model like &lt;code&gt;text-embedding-3-large&lt;/code&gt;; it would be a foundational piece of infrastructure for the entire AI ecosystem, akin to the GPS network or the TCP/IP protocol.&lt;/p&gt;
+&lt;p&gt;This model, trained on a dataset far beyond the scale of any single company, would create this true distance-based, Matryoshka-style embedding space. This would be the definitive, canonical representation of knowledge.&lt;/p&gt;
+&lt;h2 id="the-benefits-would-be-transformative"&gt;The Benefits Would Be Transformative
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Backward Compatibility and Continuous Improvement:&lt;/strong&gt; New versions of the Universal Encoder would be released as research progresses. Since each new version is just a better approximation of the same underlying Platonic representation, they should be largely backward compatible. This means you could swap in the new encoder and expect any pre-trained, task-specific models to work with the same or even better performance, with minimal re-training.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Simplified RAG and Vector Search:&lt;/strong&gt; Retrieval-Augmented Generation (RAG) and all vector search applications would be greatly simplified. You would only need a single base embedding model for any type of data. Your text, image, and audio databases would all exist within the same unified, coherent vector space, making cross-modal search and reasoning trivial.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Democratization of AI:&lt;/strong&gt; The colossal cost of training foundational models from scratch would be a one-time, collaborative effort. Researchers, startups, and even individuals could then build powerful, specialized AI applications by training only the small, inexpensive task models on top of the universal embeddings.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="a-call-for-a-new-direction"&gt;A Call for a New Direction
+&lt;/h2&gt;&lt;p&gt;I truly believe this is the future we must build. With this approach, AI could become far more open, accessible, and environmentally sustainable.&lt;/p&gt;
+&lt;p&gt;However, this vision is a direct threat to the power held by the big companies that currently dominate the AI space. Their moat is the sheer scale of their proprietary, monolithically trained models. A shared, universal encoder is not in their immediate financial interest.&lt;/p&gt;
+&lt;p&gt;Therefore, this message is a call to action for the global ML community and AI enthusiasts. The creation of such a foundational model will likely not come from a single corporation, but from a decentralized, open-source effort. Only as a global community do we have a shot at creating an AI future that is more efficient, decentralized, and accessible for everyone.&lt;/p&gt;</description></item><item><title>The Sunset of Human-Readable Code.</title><link>https://volotat.github.io/p/the-sunset-of-human-readable-code/</link><pubDate>Fri, 25 Apr 2025 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/the-sunset-of-human-readable-code/</guid><description>&lt;img src="https://volotat.github.io/p/the-sunset-of-human-readable-code/0_WnVe9xDIVdAL4WG4.png" alt="Featured image of post The Sunset of Human-Readable Code." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;There’s a shift happening in the world of programming right now, at this very moment. It feels deeper and more fundamental than anything that happened before. It’s a change in the very &lt;em&gt;nature&lt;/em&gt; of how we create software, driven by the rapid development of Large Language Models (LLMs) in code generation. And as someone who has loved the craft of programming — the intricate logic, the elegant structures, the deep understanding required — I feel we’re standing nearby a dramatic transition, looking out at a future both majestic and horrifying.&lt;/p&gt;
+&lt;p&gt;The programming I knew, the kind that demanded you hold complex systems within your mind, is changing. Tools like Copilot and its increasingly sophisticated successors are becoming ubiquitous. More and more, our role is shifting. We are less the meticulous architects drawing every line, and more like pilots or shepherds, guiding powerful LLM agents, trying to keep them on track, nudging them away from breaking things too severely.&lt;/p&gt;
+&lt;h2 id="from-architect-to-ai-whisperer"&gt;From Architect to AI Whisperer
+&lt;/h2&gt;&lt;p&gt;Think about the traditional process: absorbing requirements, designing data structures and algorithms, carefully crafting functions and classes, debugging subtle interactions and trying to find the time for so bloody needed refactoring. There was an inherent incentive, almost a necessity, to maintain a holistic understanding of the project’s structure. Your mind was the primary repository for all of that.&lt;/p&gt;
+&lt;p&gt;Now, that incentive is fading. Why spend hours meticulously mapping out a complex module when an LLM can generate a plausible version in seconds? The focus shifts from deep construction to high-level direction and validation. We feed the AI prompts, review the output, iterate, and integrate. It’s undeniably faster for many tasks, capable of producing boilerplate or even complex algorithms we might have struggled with. But with this speed comes a subtle erosion of that deep, internalised understanding. We are becoming experts at driving the AI, but perhaps less expert in the underlying terrain it traverses.&lt;/p&gt;
+&lt;h2 id="the-seductive-path-of-trust-and-obscurity"&gt;The Seductive Path of Trust and Obscurity
+&lt;/h2&gt;&lt;p&gt;Today, LLM-generated code often requires careful scrutiny. It fails in subtle ways, introduces security flaws, or misunderstands complex requirements. We are still the necessary gatekeepers, the human-in-the-loop ensuring quality.&lt;/p&gt;
+&lt;p&gt;But the trajectory is clear. LLMs are improving at an astonishing rate. With each iteration, they become more capable, their failures less frequent, their outputs more robust. As this happens, our trust inevitably grows. We’ll spend less time reviewing, more time accepting the generated code. The “good enough” becomes “surprisingly good,” and eventually, perhaps, “consistently better than I could do alone in the same timeframe”.&lt;/p&gt;
+&lt;p&gt;This increasing reliance is a one-way street. The more we trust the AI, the less comprehensively we understand the systems being built. Project complexity can balloon, supported by AI-generated scaffolding that no single human fully grasps. It will simply work, most of the time.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/the-sunset-of-human-readable-code/0_YXR8lisiM-PTPvNx.png"
+width="591"
+height="164"
+srcset="https://volotat.github.io/p/the-sunset-of-human-readable-code/0_YXR8lisiM-PTPvNx_hu_f49becba88b1b478.png 480w, https://volotat.github.io/p/the-sunset-of-human-readable-code/0_YXR8lisiM-PTPvNx_hu_62393a6bccc4ffd0.png 1024w"
+loading="lazy"
+alt="J is a concise, interpreted array programming language which looks infamously like line noise"
+class="gallery-image"
+data-flex-grow="360"
+data-flex-basis="864px"
+&gt;&lt;/p&gt;
+&lt;h2 id="the-linguistic-singularity"&gt;The Linguistic Singularity
+&lt;/h2&gt;&lt;p&gt;This leads to the most radical and unsettling part of this transformation. Once AI can generate robust, well-behaved code almost perfectly, the constraints of human-readable programming languages becomes a liability.&lt;/p&gt;
+&lt;p&gt;Why force an AI, capable of processing information in ways we can barely imagine, to express its logic in syntaxes designed for human cognition (like Python, Java, or Rust)? The next logical step is for programming languages — or whatever replaces them — to adapt towards the AI.&lt;/p&gt;
+&lt;p&gt;Imagine languages optimised not for human eyes, but for maximum efficiency in AI generation, verification, and execution. They might look like incomprehensible “gibberish” to us — dense, symbolic, perhaps multi-dimensional data structures rather than linear text. These new forms of “code” would be incredibly efficient, highly optimised, inherently less prone to certain types of errors, and performant beyond our current benchmarks.&lt;/p&gt;
+&lt;p&gt;But they would be utterly alien. We would quickly find ourselves in a situation where comprehending the generated code, even if we desperately wanted to, becomes impractical, then difficult, and finally, fundamentally impossible. The very concept of “reading the source” could become meaningless.&lt;/p&gt;
+&lt;h2 id="beyond-code-itself-the-ai-mind-simulation"&gt;Beyond Code Itself: The AI Mind Simulation
+&lt;/h2&gt;&lt;p&gt;Taking this speculation a step further, perhaps the notion of a distinct “programming language” itself dissolves. Future AI systems might not need to explicitly generate code in any intermediate format. They could potentially simulate the desired system directly within their own complex internal states, manifesting the results directly as functional behaviour or user interfaces — the “pretty graphics” we interact with.&lt;/p&gt;
+&lt;p&gt;There would be no source code to inspect, no language to learn. Just an input (our request) and an output (the working software or system), with an impenetrable, hyper-complex process happening within the AI’s “mind.” We would interact with technology whose inner workings are not just unknown, but potentially unknowable by the human intellect.&lt;/p&gt;
+&lt;h2 id="not-our-future"&gt;Not Our Future
+&lt;/h2&gt;&lt;p&gt;There’s a terrifying grandeur to this potential future. Imagine complex global systems — logistics, scientific research, resource management — running with near-perfect efficiency, orchestrated by AI far exceeding human capabilities. Problems currently intractable could be solved. This is the majestic part.&lt;/p&gt;
+&lt;p&gt;The horror lies in the loss of understanding, control, and agency. We become entirely dependent on systems we cannot interrogate, debug, or truly direct. What happens when these perfectly optimised, incomprehensible systems exhibit emergent behaviour we didn’t anticipate? Who fixes the unreadable “gibberish” when the AI fails in a novel way? Does the craft of programming, as a human endeavour of creation and understanding, simply cease to exist?&lt;/p&gt;
+&lt;p&gt;I don’t have the answers. But I feel this transition viscerally, right now. The way I write code, think about systems, and even identify as a programmer is evolving under the immense gravity of AI. It’s exciting, promising, and deeply unsettling all at once. The programming I knew and loved is changing, fundamentally and irrevocably. There’s likely no going back.&lt;/p&gt;
+&lt;p&gt;It seems, we are the last generation that have seen a miracle of human-readable code.&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 3: Why Should You Go Local?</title><link>https://volotat.github.io/p/anagnorisis-part-3-why-should-you-go-local/</link><pubDate>Thu, 23 Jan 2025 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-3-why-should-you-go-local/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-3-why-should-you-go-local/External-Hard-Drive-Hero.png" alt="Featured image of post Anagnorisis. Part 3: Why Should You Go Local?" /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;In today&amp;rsquo;s digital age, an increasing amount of personal data is stored on cloud services, often beyond our direct control. While these platforms offer convenience, they also pose significant risks regarding data ownership, privacy, and longevity. Recent incidents, such as the cyberattacks on the &lt;a class="link" href="https://web.archive.org/" target="_blank" rel="noopener"
+&gt;Internet Archive&lt;/a&gt;, highlight the vulnerability of digital repositories. In October 2024, the Internet Archive suffered a data breach that &lt;a class="link" href="https://www.wired.com/story/internet-archive-hacked/" target="_blank" rel="noopener"
+&gt;exposed&lt;/a&gt; information from over 31 million user accounts. This breach was accompanied by DDoS attacks, leading to intermittent service &lt;a class="link" href="https://www.theverge.com/2024/10/14/24269741/internet-archive-online-read-only-data-breach-outage" target="_blank" rel="noopener"
+&gt;disruptions&lt;/a&gt;. Furthermore in March 2023, a U.S. District Court ruled that the Internet Archive&amp;rsquo;s practice of lending digitized books online constituted copyright infringement, leading to a permanent &lt;a class="link" href="https://en.wikipedia.org/wiki/Hachette_v._Internet_Archive" target="_blank" rel="noopener"
+&gt;injunction&lt;/a&gt; against such activities. These events underscore how external factors can &lt;a class="link" href="https://brownstone.org/articles/they-are-scrubbing-the-internet-right-now/" target="_blank" rel="noopener"
+&gt;jeopardize&lt;/a&gt; access to information stored online.&lt;/p&gt;
+&lt;p&gt;Moreover, data loss from cloud services is not uncommon. Service outages, cyberattacks, and policy changes can result in the sudden unavailability of personal data. For instance, breaches targeting cloud storage providers have exposed sensitive user information, emphasizing the precarious nature of entrusting data to third-party platforms.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An external hard drive could provide up to &lt;a class="link" href="https://www.theverge.com/2024/12/18/24324143/seagate-32tb-hamr-hard-drive" target="_blank" rel="noopener"
+&gt;32TB of storage&lt;/a&gt; as of january 2025&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="your-data-as-a-reflection-of-your-personality"&gt;Your Data as a Reflection of Your Personality
+&lt;/h2&gt;&lt;p&gt;Every digital interaction we engage in - be it social media activity, spending habits, or smartphone usage - leaves behind a &lt;a class="link" href="https://www.psychologicalscience.org/news/releases/spending-data-personality.html" target="_blank" rel="noopener"
+&gt;footprint&lt;/a&gt; that mirrors aspects of our personality. Similarly, patterns in smartphone usage &lt;a class="link" href="https://pubmed.ncbi.nlm.nih.gov/36738137/" target="_blank" rel="noopener"
+&gt;have been linked&lt;/a&gt; to the Big Five personality traits, providing insights into an individual&amp;rsquo;s behavior and preferences.
+These digital traces are not just passive records, they actively contribute to the construction of our digital personas. Machine learning algorithms can analyze this data to &lt;a class="link" href="https://pubmed.ncbi.nlm.nih.gov/38753373/" target="_blank" rel="noopener"
+&gt;predict personality traits&lt;/a&gt;, highlighting the intimate connection between our data and our identities.&lt;/p&gt;
+&lt;h2 id="the-case-for-localstorage"&gt;The Case for Local Storage
+&lt;/h2&gt;&lt;p&gt;To mitigate these risks, transitioning to local storage solutions is a prudent strategy. By maintaining data on personal devices or dedicated local servers, individuals retain full control over their information, ensuring accessibility regardless of external circumstances. This approach not only safeguards against unforeseen disruptions but also enhances privacy and data security.&lt;/p&gt;
+&lt;p&gt;Recognizing the need for accessible local storage management, the &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;Anagnorisis&lt;/a&gt; project is developing as a way to assist users in organizing and preserving their data effectively. The idea behind Anagnorisis is to offer a set of tools that facilitate migration from cloud services such as Notion, Spotify, Pinterest or Youtube to local environments, allowing users to easily find, rate and enjoy their data just as effectively as with any of these services. By providing a user-friendly interface and AI-powered features, Anagnorisis ensures that personal data remains under the user&amp;rsquo;s control, protected from external threats and accessible for future generations.&lt;/p&gt;
+&lt;h2 id="digital-immortality-through-data-preservation"&gt;Digital Immortality Through Data Preservation
+&lt;/h2&gt;&lt;p&gt;While preserving the human mind in its entirety remains beyond current technological capabilities, each piece of data we create serves as a fragment of our identity. By conscientiously preserving this data, we offer future generations the opportunity to reconstruct a digital approximation of our personalities. This form of digital immortality is attainable today, allowing us to leave behind a legacy that extends beyond our physical existence. The ghost of our past self that can support our descendants way beyond our physical death.&lt;/p&gt;
+&lt;p&gt;Moreover, by engaging in this conscious attempt to preserve our personality, we may begin to treat our data differently. Instead of hoarding vast amounts of trivial, mostly situational information, that happened to be stored on our SSD and hard drives, we might prioritize storing only the most important and meaningful parts of it. This approach encourages us to reflect on the value of our contributions and fosters a more intentional interaction with our digital environment. Writing down our thoughts more frequently - perhaps not for others to read but as a way to create more data points. These records can serve as the basis for training future machine learning models, creating digital constructs that closely resemble our true selves.&lt;/p&gt;
+&lt;h2 id="in-theend"&gt;In the end
+&lt;/h2&gt;&lt;p&gt;While cloud services offer undeniable convenience, the potential risks associated with relinquishing control over personal data cannot be overlooked. Embracing local storage solutions, supported by tools like Anagnorisis, provides a secure and reliable alternative, preserving the integrity and accessibility of our digital lives.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 2: The Music Recommendation Algorithm.</title><link>https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/</link><pubDate>Sun, 22 Sep 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/AI.jpg" alt="Featured image of post Anagnorisis. Part 2: The Music Recommendation Algorithm." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;One of the main ideas of Anagnorisis is to have completely open recommendation engine available for users to not only view but also modify as they wish. When a user uses the music player integrated into the project, they have the ability to influence how often songs are played by rating them and based on those ratings training personal model that can estimate the ratings of the user.&lt;/p&gt;
+&lt;p&gt;In particular the mechanism looks like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;User sets up the path to local music folder&lt;/li&gt;
+&lt;li&gt;Rates some of the songs according to their own preferences&lt;/li&gt;
+&lt;li&gt;After gathering some data goes to “Train” page and press “Train music evaluator” to train the preference model&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After the training is complete one can enjoy their music, but this time, when the music is selected it will be rated by the model (in case it was not rated by the user already) and therefore adjust the probability of it occurring in the playlist.&lt;/p&gt;
+&lt;p&gt;To calculate the actual probability, the music recommendation system combines various factors — user ratings, model predictions, play history, and skips, as well as time since the last play of the song — into a mathematical formula that determines the probability of each song being selected. By balancing these influences, the system provides a personalized and dynamic music recommendation experience. Below is a more detailed explanation of the math behind the algorithm.&lt;/p&gt;
+&lt;h2 id="music-recommendation-system"&gt;Music recommendation system
+&lt;/h2&gt;&lt;p&gt;Music recommendations are based on the two scores: user scores and internal score. While the user score is static, the internal score is dependent on the act of listening. The initial internal score is always 0, it gets higher if the user listens to the whole song and gets lower if the user skips it.&lt;/p&gt;
+&lt;h2 id="calculating-probabilies-for-song-selection"&gt;Calculating probabilies for song selection
+&lt;/h2&gt;&lt;h3 id="user-ratings-and-missing-data"&gt;User Ratings and Missing Data
+&lt;/h3&gt;&lt;p&gt;The starting point is user ratings. If a song has a rating, it uses that; if not, it uses a fallback mechanism.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;User rating&lt;/strong&gt;: $ R_u $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model rating&lt;/strong&gt;: $ R_m $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mean user rating&lt;/strong&gt;: $ R_{\text{mean}} $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For each song, the system checks whether a user or model rating exists. If neither is present, the system assumes the rating is the mean value of all user ratings.&lt;/p&gt;
+$$
+R = \begin{cases}
+R_u &amp; \text{if } R_u \text{ exists} \\
+R_m &amp; \text{if } R_u \text{ does not exist and } R_m \text{ exists} \\
+R_{\text{mean}} &amp; \text{if neither } R_u \text{ nor } R_m \text{ exists}
+\end{cases}
+$$&lt;p&gt;This ensures every song gets a score.&lt;/p&gt;
+&lt;h3 id="adjusting-and-normalizing-scores"&gt;Adjusting and Normalizing Scores
+&lt;/h3&gt;&lt;p&gt;Once the ratings are gathered, they need to be adjusted for fairness. The system normalizes them and adds some weight to higher-rated songs. The normalization process is:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ensure no score is zero&lt;/strong&gt; by adding a small constant (0.1) to the score:&lt;/p&gt;
+&lt;p&gt;$ R' = \max(0.1, R) $&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Amplify high ratings&lt;/strong&gt; by normalizing the scores and then squaring them to give higher-rated songs more weight:&lt;/p&gt;
+&lt;p&gt;$ R_{\text{adjusted}} = \left( \frac{R'}{10} \right)^2 $&lt;/p&gt;
+&lt;p&gt;This squaring makes songs with higher ratings much more likely to be chosen, while ensuring lower-rated songs still have a small chance.&lt;/p&gt;
+&lt;h3 id="skip-and-play-history"&gt;Skip and Play History
+&lt;/h3&gt;&lt;p&gt;The next adjustment comes from considering how often a song has been played versus skipped:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Full plays&lt;/strong&gt;: $ P_f $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Skips&lt;/strong&gt;: $ P_s $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;strong&gt;skip score&lt;/strong&gt; is calculated using the difference between full plays and skips, normalized by an empirically chosen factor of 5.&lt;/p&gt;
+&lt;p&gt;$ S_{\text{skip}} = \sigma \left( \frac{5 + P_f - P_s}{5} \right) $&lt;/p&gt;
+&lt;p&gt;where σ(x) is the &lt;strong&gt;sigmoid function&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;$ \sigma(x) = \frac{1}{1 + e^{-x}} $&lt;/p&gt;
+&lt;p&gt;This ensures that the skip score stays in a meaningful range between 0 and 1.&lt;/p&gt;
+&lt;h3 id="time-since-last-played"&gt;Time Since Last Played
+&lt;/h3&gt;&lt;p&gt;To promote variety, the system boosts the chances for songs that haven’t been played recently. The system calculates a &lt;strong&gt;last played score&lt;/strong&gt; based on how recently the song was played compared to other songs.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Index of song&lt;/strong&gt; in the list sorted by last played: $ I_{\text{last}} $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Total number of songs&lt;/strong&gt;: $ N $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The last played score is calculated as:&lt;/p&gt;
+&lt;p&gt;$ S_{\text{time}} = \frac{I_{\text{last}}}{N} $&lt;/p&gt;
+&lt;p&gt;Songs that haven’t been played in a long time get a higher score, while recently played songs get a lower score.&lt;/p&gt;
+&lt;h3 id="final-score-calculation"&gt;Final Score Calculation
+&lt;/h3&gt;&lt;p&gt;Now that we have all the factors:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Adjusted rating: $ R_{\text{adjusted}} $&lt;/li&gt;
+&lt;li&gt;Skip score: $ S_{\text{skip}} $&lt;/li&gt;
+&lt;li&gt;Last played score: $ S_{\text{time}} $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The final score for each song is a product of these three components:&lt;/p&gt;
+&lt;p&gt;$ S_{\text{final}} = R_{\text{adjusted}} \times S_{\text{skip}} \times S_{\text{time}} $&lt;/p&gt;
+&lt;p&gt;This final score \( S_{\text{final}} \) represents how likely a song is to be selected.&lt;/p&gt;
+&lt;h3 id="calculating-probabilities"&gt;Calculating Probabilities
+&lt;/h3&gt;&lt;p&gt;Once the final scores are calculated for all songs, they are converted into probabilities. The probability of a song $ i $ being selected is its score divided by the sum of all scores:&lt;/p&gt;
+&lt;p&gt;$ P_i = \frac{S_{\text{final}, i}}{\sum_{j=1}^{N} S_{\text{final}, j}} $&lt;/p&gt;
+&lt;p&gt;This ensures that the probabilities sum to 1, and each song’s chance of being selected is proportional to its score.&lt;/p&gt;
+&lt;h3 id="random-selection"&gt;Random Selection
+&lt;/h3&gt;&lt;p&gt;Finally, the system uses these probabilities to randomly select a song. A song with a higher probability $ P_i $ is more likely to be chosen, but even songs with lower probabilities still have a chance based on their final score.&lt;/p&gt;
+&lt;h3 id="example-calculation"&gt;Example Calculation
+&lt;/h3&gt;&lt;p&gt;Let’s say we have three songs with the following details:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Song&lt;/th&gt;
+&lt;th&gt;User Rating&lt;/th&gt;
+&lt;th&gt;Full Plays&lt;/th&gt;
+&lt;th&gt;Skips&lt;/th&gt;
+&lt;th&gt;Last Played (days ago)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;A&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Adjusted Ratings&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ R_{\text{adjusted}} = \left( \frac{8}{10} \right)^2 = 0.64 $&lt;/li&gt;
+&lt;li&gt;Song B: $ R_{\text{adjusted}} = \left( \frac{6}{10} \right)^2 = 0.36 $&lt;/li&gt;
+&lt;li&gt;Song C uses the mean rating (say 7): $ R_{\text{adjusted}} = \left( \frac{7}{10} \right)^2 = 0.49 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Skip Scores&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ S_{\text{skip}} = \sigma \left( \frac{5 + 10 - 2}{5} \right) = \sigma(2.6) \approx 0.93 $&lt;/li&gt;
+&lt;li&gt;Song B: $ S_{\text{skip}} = \sigma \left( \frac{5 + 5 - 3}{5} \right) = \sigma(1.4) \approx 0.80 $&lt;/li&gt;
+&lt;li&gt;Song C: $ S_{\text{skip}} = \sigma \left( \frac{5 + 2 - 5}{5} \right) = \sigma(0.4) \approx 0.60 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Last Played Scores&lt;/strong&gt; (let’s assume there are 3 songs total):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A (played 7 days ago): $ S_{\text{time}} = \frac{2}{3} \approx 0.67 $&lt;/li&gt;
+&lt;li&gt;Song B (played 2 days ago): $ S_{\text{time}} = \frac{1}{3} \approx 0.33 $&lt;/li&gt;
+&lt;li&gt;Song C (played 30 days ago): $ S_{\text{time}} = \frac{3}{3} = 1.0 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Final Scores&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ S_{\text{final}} = 0.64 \times 0.93 \times 0.67 \approx 0.40 $&lt;/li&gt;
+&lt;li&gt;Song B: $ S_{\text{final}} = 0.36 \times 0.80 \times 0.33 \approx 0.095 $&lt;/li&gt;
+&lt;li&gt;Song C: $ S_{\text{final}} = 0.49 \times 0.60 \times 1.0 \approx 0.29 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Probabilities&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;$ P_A = \frac{0.40}{0.40 + 0.095 + 0.29} \approx 0.50 $&lt;br&gt;
+$ P_B = \frac{0.095}{0.40 + 0.095 + 0.29} \approx 0.12 $&lt;br&gt;
+$ P_C = \frac{0.29}{0.40 + 0.095 + 0.29} \approx 0.36 $&lt;/p&gt;
+&lt;p&gt;In this case, Song A has a 50% chance of being selected, Song B has a 12% chance, and Song C has a 36% chance.&lt;/p&gt;
+&lt;h2 id="future-plans"&gt;Future plans
+&lt;/h2&gt;&lt;p&gt;In future I would also like to add more different options of building a current playlist. One of the ideas is a “chain mode” that takes selected by the user song as a seed and finds the most similar song, based on the embeddings, then finds the most similar to a next song and so on.&lt;/p&gt;
+&lt;p&gt;In case there would be a &lt;a class="link" href="https://github.com/openai/CLIP" target="_blank" rel="noopener"
+&gt;CLIP&lt;/a&gt;-like model for audio in the future, I would also like to implement prompt-based playlist generation. One could simply describe the mood of the music they would like to listen and the proper playlist be generated on the fly from this description.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 1: A Vision for Better Information Management.</title><link>https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/</link><pubDate>Sun, 12 May 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/cover.jpg" alt="Featured image of post Anagnorisis. Part 1: A Vision for Better Information Management." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;Many years ago there was a music streaming service called &lt;a class="link" href="https://en.wikipedia.org/wiki/Grooveshark" target="_blank" rel="noopener"
+&gt;Grooveshark&lt;/a&gt;. While being one of the first of such services it allowed things that would be unheard of today — free access to a huge music library and an option for any user to upload their own music to the website. This created quite a unique environment where you can easily find even the most obscure music you like to listen to. Furthermore there was a &amp;ldquo;radio mode&amp;rdquo; that automatically selected the music that you would like to listen, basically the same as any other today&amp;rsquo;s streaming service with one little exception — it was actually good. I was able to listen to music for hours and almost always it was the music I like that allowed me to discover many new bands that I like till this day. Unfortunately, on April 30, 2015 the site was shut down as part of a settlement of the copyright infringement lawsuits between the service and Universal Music Group, Sony Music Entertainment, and Warner Music Group.&lt;/p&gt;
+&lt;p&gt;Since then I have tried many other alternatives such as spotify, pandora, youtube music and others. None of them ever worked for me as well as Grooveshark. First of all for a long time many of them simply were not working for my country of residence, but even when they start working there was a problem — recommendations worked really badly. Mostly the recommendations were good only for the first few songs, but after that it always started to diverge into &amp;ldquo;popular&amp;rdquo; or rather &amp;ldquo;promoted&amp;rdquo; music that I don&amp;rsquo;t really like. And yes, it did not matter if it was paid or free version. The suspicion started to grow, that many services use music recommendation engines as subtle manipulation to promote some particular artists rather than satisfying my needs as a customer.&lt;/p&gt;
+&lt;p&gt;This led me into rethinking the whole idea of recommendation algorithms and how much of it is what we want to see, and how much of it is what the people in control of it want or don&amp;rsquo;t want to show.&lt;/p&gt;
+&lt;h2 id="controlling-the-algorithm-not-the-other-wayaround"&gt;Controlling the Algorithm. Not the other way around.
+&lt;/h2&gt;&lt;p&gt;There are several different ways of how we can sort information. Some popular social media, such as &lt;a class="link" href="https://www.reddit.com/" target="_blank" rel="noopener"
+&gt;Reddit&lt;/a&gt; heavily rely on direct human feedback for it. While this approach is clearly working it also requires a lot of moderation efforts. And because of its nature, posts on reddit get more attention when they satisfy the interest of the whole community rather than a particular person.&lt;/p&gt;
+&lt;p&gt;Another widespread approach that recommendation systems use is &lt;a class="link" href="https://en.wikipedia.org/wiki/Collaborative_filtering" target="_blank" rel="noopener"
+&gt;Collaborative filtering&lt;/a&gt;. It uses personal feedback from some users to predict preferences of other users. Websites such as Spotify or Youtube in its core heavily rely on this approach or at least relied in the past. The main drawback of this approach that you do need a lot of users and their personal data to make it work and even then there are no guarantee that it will always work for all users as they might have some set of interests that were not seen previously.&lt;/p&gt;
+&lt;p&gt;Finally with the rise of Machine Learning a new approach has risen — &lt;a class="link" href="https://arxiv.org/pdf/2310.18608.pdf" target="_blank" rel="noopener"
+&gt;Embedding-based recommender systems&lt;/a&gt;. While this is an umbrella term that implies many different techniques, the general idea behind it is to use embeddings generated by some ML model directly from the data to then predict how well this data is suited for a particular user. This is the only approach that could work without a huge user base, using only a single user feedback. As such, it opens a new exciting possibility — a recommendation system that works completely locally on users&amp;rsquo; personal devices. If implemented as an open source project such a recommendation system would be completely open to the user and controlled only by the user.&lt;/p&gt;
+&lt;h2 id="the-nextfrontier"&gt;The Next Frontier
+&lt;/h2&gt;&lt;p&gt;Let&amp;rsquo;s spend a minute trying to imagine how a &amp;ldquo;perfect&amp;rdquo; recommendation system might work. For a brief moment imagine that our system is totally agnostic to what kind of data it can process. No matter if it is music, videos, news or anything else. To extract embeddings of the data we will use some ML model that could take any data as an input and produce a meaningful embedding of it.&lt;/p&gt;
+&lt;p&gt;Here is some basic principle that I would like this system to satisfy:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;First of all, it should give valuable recommendations. Obviously. It should allow to sort and filter the vast amount of information.&lt;/li&gt;
+&lt;li&gt;All the data about the user and about the user&amp;rsquo;s preferences should stay on their own personal devices and should be accessible only by the users.&lt;/li&gt;
+&lt;li&gt;It should learn from the user&amp;rsquo;s feedback and change its recommendations alongside changing interests of the user.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can use our ML model to generate embedding from the big pile of data, and present some of this data to the user in the form of UI interface. Like a music player, for example. Then we collect user feedback about the data and train another ML model that takes embeddings as inputs and predicts some score representing how relevant this data is for the user. We then can use this new model to suggest better recommendations, collect more data and repeat this process again and again, providing a more and more satisfying experience. And all of those steps might be performed locally, just as we wished earlier.&lt;/p&gt;
+&lt;p&gt;Here is the little diagram showing how the dataflow in such system may look like:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph.png"
+width="3646"
+height="2394"
+srcset="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph_hu_ba1a9f042994e1b0.png 480w, https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph_hu_c6e29faaaf258bb3.png 1024w"
+loading="lazy"
+alt="A rough representation on how such recommendation system might work"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+&gt;&lt;/p&gt;
+&lt;p&gt;I particularly like the option of using &lt;a class="link" href="https://en.wikipedia.org/wiki/Peer-to-peer" target="_blank" rel="noopener"
+&gt;p2p Network&lt;/a&gt; as a main datasource of such system. In this case we can completely move away from centralized services that control the flow of information and give users a choice to choose what kind of data they need, without any need for content moderation or sharing their personal data. To speed up calculations and not spend time and resources downloading unnecessary data, the data embeddings might be precalculated on the data provider side. So we can check if the data is valuable for us at first and only then accessing it.&lt;/p&gt;
+&lt;p&gt;To give a rating for a particular embedding we can train a model from scratch that takes embeddings as an input and predicts a value that estimates a score that a user would give to the data themselves. Right now Anagnorisis trains a separate evaluation network for each type of data, but in the future I would like to explore a more general approach, for example a multimodal transformer that could take text and embeddings as its input and produce interest scores as an output. While it would be computationally much slower than using some specialized model, it opens up new amazing possibilities that will be discussed later in this series.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Combining GPT-3 and Stable Diffusion to imagine a next level game engine.</title><link>https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/</link><pubDate>Fri, 16 Dec 2022 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/</guid><description>&lt;p&gt;The Holy Grail of all RPG games always was an AI that could reliably reply to what the player says and react to his actions. This was openly pronounced right from the beginning of the genre when text-based games started being developed. However, despite decades of research, there still has not been a perfected AI for RPGs that can truly understand and react to natural language. With the appearance of GPT-3 and other large language models a glimmer of hope appeared. Yet as the world of RPGs is so large and open-ended, it requires an AI with a vast amount of understanding and context about the environment and the player’s actions in order to be able to produce realistic responses. This means that creating an AI which can reliably interact with players is an extremely difficult task — one which has yet to be achieved. Although &lt;a class="link" href="https://aidungeon.io/" target="_blank" rel="noopener"
+&gt;AI Dungeon&lt;/a&gt; seems to be a good step forward.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/0_Tu0Tpn1RQg20HLYq.png"
+width="640"
+height="480"
+srcset="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/0_Tu0Tpn1RQg20HLYq_hu_de769f9e24fd305a.png 480w, https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/0_Tu0Tpn1RQg20HLYq_hu_35f571e181ac915.png 1024w"
+loading="lazy"
+alt="In Fallout 1 players could try to ask characters about anything using the “Tell me about” feature. It didn’t work well."
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+&gt;&lt;/p&gt;
+&lt;p&gt;There is another genre of games that could be a perfect petri dish for such an AI — &lt;a class="link" href="https://en.wikipedia.org/wiki/Dating_sim" target="_blank" rel="noopener"
+&gt;&lt;strong&gt;Dating sims&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;.&lt;/strong&gt; Relying heavily on the text they are much closer to situations to what GPT-3 is used to deal with. They usually have a few characters and most of the time do not present any real challenge to the player, rather just telling a story the author of the game had in mind. Another selling point of dating sims is the great art that the game presents to the player. Here is where our new cool kid — Stable Diffusion — could show himself in full glory. The idea seems obvious, we should use GPT-3 to generate interactive stories and prompts for Stable Diffusion, that would generate images for that story. Even better, with technology like &lt;a class="link" href="https://dreambooth.github.io/" target="_blank" rel="noopener"
+&gt;DreamBooth&lt;/a&gt; that allows us to introduce new concepts to image generation model, we should be able to produce coherent locations, characters and style of the images. But will it really work in practice?
+To test this idea I decided to emulate a dating game within a simple text document.&lt;/p&gt;
+&lt;p&gt;The GPT-3 prompt I used was looking in the following way:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The following is the dialog between the character Alice Lake (Jessica Chastain) and the player.
+Alice Lake (Jessica Chastain) does not know the player yet, but is very happy to meet him and help with anything he is asking.
+The following happened in the big house where the player woke up with huge pain in his head.
+…
+Short summary of the dialog so far: &amp;ldquo;[First GPT API call, do not need to call it if it is the first message]&amp;rdquo;
+Alice: &amp;ldquo;[Second GPT API call]&amp;rdquo;
+Description of an image shown to the player: &amp;ldquo;[Third GPT API call]&amp;rdquo;
+Player: &amp;ldquo;[player&amp;rsquo;s input]&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;“…” — represents the previous state of the dialog. Because we have a “Short summary of the dialog so far” section that works like a long-term memory, we do not need to store more than the last two messages.&lt;/p&gt;
+&lt;p&gt;Here is the first message from the character, description of an image shown to the player and the actual image generated from this description, as well as player’s answer to the character:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_S9ugIxbEZaTfCkO9FY-p8g.png"
+width="911"
+height="802"
+srcset="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_S9ugIxbEZaTfCkO9FY-p8g_hu_9d35179417b5b4a8.png 480w, https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_S9ugIxbEZaTfCkO9FY-p8g_hu_4ed6039dbbe29053.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="113"
+data-flex-basis="272px"
+&gt;&lt;/p&gt;
+&lt;p&gt;I used the &lt;a class="link" href="https://huggingface.co/Linaqruf/anything-v3.0" target="_blank" rel="noopener"
+&gt;Anything-V3&lt;/a&gt; model as it could generate visually pleasing results consistently, without too much prompt engineering. To not waste time training the DreamBooth model for coherent rendering of characters I simply used a famous person, in my case this was Jessica Chastain, as a character anchor and vague description of the clothes in the prompt. In the end the prompt I used to generate images was the following:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Prompt: [Description of an image from GPT-3] + “Detailed photo-realistic anime style. Inside a house. Tight red dress.”&lt;/p&gt;
+&lt;p&gt;Negative: (((ugly))), fake image, blurry image, blur, corrupted image, old black and white photo, out of frame, without head, too close, cropped, collage, split image&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I tried to keep the first image that was generated, although I did allow myself to regenerate an image if it was completely off as it happened a couple of times.&lt;/p&gt;
+&lt;p&gt;The first pleasant surprise I got was when I asked Alice’s character to give me a cup of coffee. I was expected to see another simple close up view of the character but instead got this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_ZtlE7YdSKg6ILO5cmfKMOw.png"
+width="911"
+height="802"
+srcset="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_ZtlE7YdSKg6ILO5cmfKMOw_hu_750145c0cbffb0b0.png 480w, https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_ZtlE7YdSKg6ILO5cmfKMOw_hu_c013a077f71182ce.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="113"
+data-flex-basis="272px"
+&gt;&lt;/p&gt;
+&lt;p&gt;As we could see the description of an image does not contain two cups of coffee, so this was just a coincidence, although it was not the last such a surprise. When I asked Alice to find my documents I got an image of her actually looking around the house.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_Q8LnZMyGUOaQffr-0ggEEQ.png"
+width="908"
+height="826"
+srcset="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_Q8LnZMyGUOaQffr-0ggEEQ_hu_2169cbde4fe0b059.png 480w, https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_Q8LnZMyGUOaQffr-0ggEEQ_hu_b9270b905cc19bd0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="109"
+data-flex-basis="263px"
+&gt;&lt;/p&gt;
+&lt;p&gt;At this point it was clear that the idea in general was working. As the next step I tried to see limitations of the system. I tried to “get rid” of the character and make it show me some inanimate object. I hoped that GPT-3 would generate a description of an image that does not contain Alice, but it kept her in nevertheless.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_u-WuVDmnsfDaArk_2u2T_Q.png"
+width="910"
+height="852"
+srcset="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_u-WuVDmnsfDaArk_2u2T_Q_hu_a017c9382dfeeb3e.png 480w, https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_u-WuVDmnsfDaArk_2u2T_Q_hu_cdea1ddae66e02cf.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="256px"
+&gt;&lt;/p&gt;
+&lt;p&gt;At some point GPT-3 decided to put the player into the image. Here is where the most important limitation became clear — for a coherent story not only the image should depend on the dialog, the dialog itself should also depend on the generated images.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_8If70qcQa3Ub-vG-V9GgMA.png"
+width="910"
+height="798"
+srcset="https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_8If70qcQa3Ub-vG-V9GgMA_hu_fd3fe64e2d02a1f8.png 480w, https://volotat.github.io/p/combining-gpt-3-and-stable-diffusion-to-imagine-a-next-level-game-engine/1_8If70qcQa3Ub-vG-V9GgMA_hu_709a4e0c1854e2bf.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="114"
+data-flex-basis="273px"
+&gt;&lt;/p&gt;
+&lt;p&gt;The main takeaway of this little experiment that I got is that we are very close to creating believable characters powered by an AI. The only thing we really need is a multimodal approach as powerful as GPT-3 and Stable Diffusion combined, able to generate text and images as a coherent stream of tokens. It would also be beneficial to have some sort of memory in the form of learned special tokens that contain information of the previous events in a compressed form as the “Short summary of the dialog so far” section does. The good news, that new models like &lt;a class="link" href="https://arxiv.org/pdf/2204.14198.pdf" target="_blank" rel="noopener"
+&gt;Flamingo&lt;/a&gt; from DeepMind could do exactly that.&lt;/p&gt;
+&lt;p&gt;The whole story I got by interacting with “the game” is available in &lt;a class="link" href="https://docs.google.com/document/d/1G4f0ta9f2T_WtRbGY7qFEBbh2dH2zrnVt7yNK-KjKnk/" target="_blank" rel="noopener"
+&gt;this document&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s see what the future holds for us…&lt;/p&gt;</description></item><item><title>Can Humans Speak the Language of the Machines?</title><link>https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/</link><pubDate>Tue, 06 Sep 2022 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/</guid><description>&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_Tpm0MlWfLdNMGQ9b.png" alt="Featured image of post Can Humans Speak the Language of the Machines?" /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;In the movie Arrival (2016) a group of scientists tries to learn the language of extraterrestrial aliens that arrived on Earth and by doing so they change the way they think which allows the main character to obtain some extraordinary power. While such power is in the domain of fiction, the theory that our language dictates the way we think &lt;a class="link" href="https://en.wikipedia.org/wiki/Linguistic_relativity" target="_blank" rel="noopener"
+&gt;has been widely explored in the literature&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There is a main crucial distinction in how people and current AI systems process information. All major human languages are based on discrete bags of words, while ML models almost always obtain and output information in terms of lists of real values. Because of this, all NLP models have a process of “vectorization” when a whole word, part of it, or single characters obtain their own vector representation that conveys their internal meaning accessible for further processing within the models. The main benefit of vectorization is that these vectors are continuous, therefore, could be adjusted (trained) through backpropagation. In a world of NLP models, the words “planet” and “moon” have some distance between each of them and could be gradually transformed from one to another.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_OiPWVzJqYD5qTEf7.png"
+width="1400"
+height="538"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_OiPWVzJqYD5qTEf7_hu_3158852279ffec97.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_OiPWVzJqYD5qTEf7_hu_84228caddcd61232.png 1024w"
+loading="lazy"
+alt="Vector representations of words in latent space of NLP models"
+class="gallery-image"
+data-flex-grow="260"
+data-flex-basis="624px"
+&gt;&lt;/p&gt;
+&lt;p&gt;Here is where the first glimpse of a new superpower will show up. Because of the discrete nature of our language people tend to think in terms of types, even when these types cannot be properly defined. The most obvious examples of it are in cosmology. There are some types of objects that at first glance fit very well into our discrete view of the world: planets, moons, stars, comets, asteroids, black holes and so on. But there are also some in-betweeny objects such as black dwarfs that are neither a planet nor a star but have properties of both depending from which angle you look at it. And there is Pluto… that was a planet, but lost its status when the definition of a planet was changed. The thing is, there is an ongoing debate that this new definition is not purely scientific and based on a recent observation of Pluto’s geological activity, &lt;a class="link" href="https://www.sciencedirect.com/science/article/pii/S0019103521004206" target="_blank" rel="noopener"
+&gt;it should be a planet after all&lt;/a&gt;. The type system breakes when we find something that lies on the boundary between the types. And most of the time, a new type is created alongside a bunch of new boundaries that wait to be filled with new exceptions. It seems that it would be beneficial to have a language that does not have these boundaries in its nature and works more closely with how ML models work. So, here comes the question: &lt;strong&gt;could we create a language that is understandable by a human but works in a continuous fashion?&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="vector-based-language"&gt;Vector Based Language
+&lt;/h2&gt;&lt;p&gt;In some sense, we already have a continuous language in the form of images. If we ask one human to draw a house and ask another what this image means, we have a high chance that the guess would be right. And a list of images might tell stories just as a sentence does. But there is a problem, for any word in a language there are infinite possibilities of depicting it in the form of an image, and then there are even more possibilities of interpreting the image back to words. So the language made of regular images would not be very reliable in conveying an exact meaning that was originally intended. To overcome this problem, we need a system that could generate some sort of an image for every word given and could guarantee that this image might be converted back to the original word exactly.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_qJX7THDcOFH_XBpi.png"
+width="625"
+height="790"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_qJX7THDcOFH_XBpi_hu_f266c63775a7004b.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/0_qJX7THDcOFH_XBpi_hu_8301af913c7f316f.png 1024w"
+loading="lazy"
+alt="An example of a story told entirely with images"
+class="gallery-image"
+data-flex-grow="79"
+data-flex-basis="189px"
+&gt;&lt;/p&gt;
+&lt;p&gt;The main tool we are going to use in the pursuit of developing such language is, once again, machine learning. The setup will look like this: there is a pre-trained language model that takes a word or a sentence as an input and produces some vector representation of it, there is also a second model that transforms this vector into some human-readable format, and lastly, there is a human who has to guess the original word that has been given. The human is allowed to take any time necessary to learn how the system works.&lt;/p&gt;
+&lt;h2 id="architecture"&gt;Architecture
+&lt;/h2&gt;&lt;p&gt;The general thing we want to achieve is to have a model that generates some embedding of the given text and then produces a visualization of these embeddings. To obtain embeddings of text, we will use &lt;a class="link" href="https://arxiv.org/abs/1803.11175" target="_blank" rel="noopener"
+&gt;universal sentence encoder&lt;/a&gt; from Google, and to generate the visualization we will train generator network G. To do so, we need to have some approximation of the human visual system to make resulting images human-readable. In our case, this approximation would be a network V that we will initialize with mobile-net-v2 weights and allow these weights to change at the training stage.&lt;/p&gt;
+&lt;p&gt;We are leaving the vision model trainable as it would bring another layer of regularization to the system. If we don’t do that and freeze the model, the decoding network tends to exploit inaccuracies in the visual model and settles on the solution that has a good reconstruction rate, yet all images are still pretty much the same, and only subtle differences are present that are very hard for a human to notice.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_ZY2XQdsCwSDpn3-aXAzv9w.png"
+width="798"
+height="904"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_ZY2XQdsCwSDpn3-aXAzv9w_hu_cacc4d1e0d1d4571.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_ZY2XQdsCwSDpn3-aXAzv9w_hu_77ff654ceee10bbb.png 1024w"
+loading="lazy"
+alt="General representation of the system’s architecture"
+class="gallery-image"
+data-flex-grow="88"
+data-flex-basis="211px"
+&gt;&lt;/p&gt;
+&lt;p&gt;We train this architecture with the following loss function:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_Rz4gSkKEn2uc4SFVKCEGSg.png"
+width="1295"
+height="619"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_Rz4gSkKEn2uc4SFVKCEGSg_hu_9fef1db847a0b0ff.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_Rz4gSkKEn2uc4SFVKCEGSg_hu_c3e748cf832aff92.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="209"
+data-flex-basis="502px"
+&gt;&lt;/p&gt;
+&lt;p&gt;Where G — generator network, V — vision network, D — decoder network. I_1 and I_2 are embeddings of two randomly generated sentences.&lt;/p&gt;
+&lt;p&gt;Here, the purpose of L_1 term is to make sure that distances in visual latent space are roughly the same as distances in word embeddings space. L_2 keeps images generated by G as far apart as possible in RBG space. L_3 keeps images generated by G as far apart as possible in visual space while keeping its mean at 0. L_4, the most important term, makes sure that reconstructed word embeddings are the same as initial ones. Values for α, β, γ are found empirically.&lt;/p&gt;
+&lt;p&gt;To make the generator to be able to produce a meaningful image from any point of embedding space of the universal sentence encoder and prevent overfitting, we have to probe the space as densely as possible at the training stage. To do so, we will generate random sentences with the help of &lt;a class="link" href="https://www.nltk.org/" target="_blank" rel="noopener"
+&gt;nltk&lt;/a&gt; library. Here are the examples of such generated sentences: ‘ideophone beanfield tritonymphal fatuism preambulate nonostentation overstrictly pachyhaemous’, ‘hyperapophysial’, ‘southern’, ‘episynaloephe subgenerically gleaning reformeress’, ‘trigonelline’, ‘commorant saltspoon’, ‘nonpopularity mammaliferous isobathythermal phenylglyoxylic insulate aortomalaxis desacralize spooky’, ‘speed garn nunciatory neologism’, ‘podobranchial fencible’, ‘epeirid gibaro’, ‘sleeved’, ‘demonographer probetting subduingly’, ‘velociously calpacked invaccinate acushla amixia unicolor’ and so on.&lt;/p&gt;
+&lt;h2 id="testing"&gt;Testing
+&lt;/h2&gt;&lt;p&gt;To test if our methods are doing well we are going to use the reconstruction rate metric. To calculate the metric, we need to collect &lt;a class="link" href="https://www.talkenglish.com/vocabulary/top-2000-vocabulary.aspx" target="_blank" rel="noopener"
+&gt;2265 most common English words&lt;/a&gt; and expand this list with 10 digits. A random word gets converted to its embedding with the &lt;a class="link" href="https://arxiv.org/abs/1803.11175" target="_blank" rel="noopener"
+&gt;universal sentence encoder&lt;/a&gt; and passed to the generator that generates the image representing the word. Then, depending on who is the test subject (human or machine) we use one of the following:&lt;/p&gt;
+&lt;p&gt;For a machine, we pass generated images to the pre-trained visual network and then decode it with decoder network D to get back the word embedding. We compare this new embedding with all embeddings in the dictionary, and if the euclidian distance from the new embedding to the original embedding is the smallest, we give the point to the system. After checking all the words in such a way, we obtain:&lt;/p&gt;
+&lt;p&gt;reconstruction rate = correct answers / number of words * 100%.&lt;/p&gt;
+&lt;figure&gt;
+&lt;div style="display: flex; justify-content: center; gap: 10px;"&gt;
+&lt;img src="1_R_GQTs5EsJCZTU5SZP3HQg.png" style="width: 48%;"&gt;
+&lt;img src="1_x59gDtlLr5RG36bl_HlpJw.png" style="width: 48%;"&gt;
+&lt;/div&gt;
+&lt;figcaption&gt;Presentation of Human Testing Interface&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;For human testing, we give a generated image to the test subject with a visual interface that presents the image with four possible answers. Human should learn through trial and error what word each image represents and report their best score. To make this task more convenient, at the beginning of the session, the testing interface asks what size of the dictionary the participant wants to use. The dictionary itself consists in a way that it’s growing from the most to less common English words. Volume of the dictionary is separated by the following levels: 10, 20, 40, 100, 200, 400, 1000, and 2275 (full dictionary). Here is a sample of the first 30 words presented in the dictionary:&lt;/p&gt;
+&lt;p&gt;0, 1, 2, 3, 4, 5, 6, 7, 8, 9, the, of, and, to, a, in, is, you, are, for, that, or, it, as, be, on, your, with, can, have… and so on.&lt;/p&gt;
+&lt;p&gt;In the human case, the reconstruction rate is calculated by the exact same formula. To check the accuracy, the test subject is supposed to answer 100 questions with full dictionary size. Although it is worth noting that the random baseline for humans is 25% as it is always possible to simply guess the right answer from the 4 options presented.&lt;/p&gt;
+&lt;h2 id="results"&gt;Results
+&lt;/h2&gt;&lt;p&gt;After training the system, it was producing the following images for respective input sentences:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_lgXj1-BGYkDVqLytrz9D9A.png"
+width="1340"
+height="1274"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_lgXj1-BGYkDVqLytrz9D9A_hu_e6c6f08ff1eb2e9a.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_lgXj1-BGYkDVqLytrz9D9A_hu_d7b727979f31604d.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="105"
+data-flex-basis="252px"
+&gt;&lt;/p&gt;
+&lt;p&gt;The reconstruction rate for the decoder network at the end of the training was 100%, and the loss value was 0.02.&lt;/p&gt;
+&lt;p&gt;I did the experiment of learning this language on myself and was able to achieve a 43% reconstruction rate after two weeks of training. It was beneficial for me to start from a small number of words and gradually increase this number with less and less common words. The promise was, that at some point you do not really need to remember each image, the meaning of the word should be deducible from the geometry presented in the image. So learning such a language should be much easier than learning a typical natural language. While learning I used the 85% threshold to make sure that I’m ready to increase the volume of the dictionary.&lt;/p&gt;
+&lt;p&gt;Here is how a two-week learning progress looked like for different dictionary sizes:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_aN_F1IG-q6nR7ECNjJRoyQ.png"
+width="1059"
+height="697"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_aN_F1IG-q6nR7ECNjJRoyQ_hu_8c9399ef05ae7684.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_aN_F1IG-q6nR7ECNjJRoyQ_hu_204ad6b8ef0ccee0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="364px"
+&gt;&lt;/p&gt;
+&lt;p&gt;While bigger dictionaries became progressively harder to learn, the upward trend is clearly visible in all cases. This proves the most important point that answers the question that was set at the beginning. &lt;strong&gt;We can create a language that works in a continuous fashion and such language is learnable by a human.&lt;/strong&gt; While implications of this are yet to be known, in the next section, I will speculate on some that might be interesting to investigate further.&lt;/p&gt;
+&lt;p&gt;The source code and pre-trained models are available on the project’s GitHub page: &lt;a class="link" href="https://github.com/volotat/Vector-Based-Language" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Vector-Based-Language&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Full training history is available here: &lt;a class="link" href="https://github.com/volotat/Vector-Based-Language/blob/main/article/history.csv" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Vector-Based-Language/blob/main/article/history.csv&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="thoughts"&gt;Thoughts
+&lt;/h2&gt;&lt;p&gt;To my knowledge, that is the only example of a synthetic language that possesses a notion of continuity where words and even sentences could blend into each other. I suggest that such language should be interesting even as an example that such a thing is possible in principle. I hope this may make someone fascinated by the idea to explore it further in their own right.&lt;/p&gt;
+&lt;p&gt;I think that the most promising aspect of such language is the combination of it with some sort of brain-computer interface. The obvious downside of the language at the current stage is that there is no clear way to produce the image directly from the intent rather than words. With good enough BCI, this problem could be solved. Therefore such language might be the first way to store thoughts in human-readable format.&lt;/p&gt;
+&lt;p&gt;With the rise of foundation models, and especially text2image generators, such as &lt;a class="link" href="https://github.com/CompVis/stable-diffusion" target="_blank" rel="noopener"
+&gt;Stable Diffusion&lt;/a&gt;, there is a need to produce and store concepts that could not be easily conveyed with words but still could be represented as embeddings. There is recent work called &lt;a class="link" href="https://github.com/rinongal/textual_inversion" target="_blank" rel="noopener"
+&gt;Textual Inversion&lt;/a&gt; that tries to solve this exact problem. With language like this, we could visualize these embeddings in a meaningful way and even use it as a common concept space for many models in the future.&lt;/p&gt;
+&lt;p&gt;The language might be significantly improved to be more human-friendly. For example, we can use more advanced models such as CLIP (to be more specific, an image encoder part of it) as a visual model at the training stage to produce more readable images. Or we could use a set of predefined text-image pairs as anchors for more controllable outputs.&lt;/p&gt;
+&lt;p&gt;And lastly, to really show that generated images represent the meaning of the words rather than the words themselves…&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_0yCretXbrfvCMniTT8T8LA.png"
+width="1400"
+height="284"
+srcset="https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_0yCretXbrfvCMniTT8T8LA_hu_61fbd085c439aa35.png 480w, https://volotat.github.io/p/can-humans-speak-the-language-of-the-machines/1_0yCretXbrfvCMniTT8T8LA_hu_1af17d4d56362676.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="492"
+data-flex-basis="1183px"
+&gt;&lt;/p&gt;</description></item><item><title>NeuroGrammer — a proposal of an architecture for solving the ARC challenge.</title><link>https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/</link><pubDate>Thu, 07 Jul 2022 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/</guid><description>&lt;p&gt;Disclaimer: this text is prepared for readers who already familiar with the ARC challenge. If you don’t know what it is, you can take a look at &lt;a class="link" href="https://github.com/fchollet/ARC" target="_blank" rel="noopener"
+&gt;the github page of the challenge&lt;/a&gt; and &lt;a class="link" href="https://arxiv.org/abs/1911.01547" target="_blank" rel="noopener"
+&gt;the original paper “On the Measure of Intelligence”&lt;/a&gt; by François Chollet.&lt;/p&gt;
+&lt;p&gt;The main idea is to produce a system that consists of two differentiable parts — a programmer and a computer.&lt;/p&gt;
+&lt;p&gt;The first part of the system — programmer — takes three inputs: an input data that should be processed, an output data that should be generated and the current state of the program that supposed to covent an input data into an output data. The task of the programmer is to generate a better version of the program.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_PIA7-UG3vs5eDFc4_Uu0rg.png"
+width="376"
+height="506"
+srcset="https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_PIA7-UG3vs5eDFc4_Uu0rg_hu_4775938ab673f87d.png 480w, https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_PIA7-UG3vs5eDFc4_Uu0rg_hu_170ff55f17f7ba9.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="74"
+data-flex-basis="178px"
+&gt;&lt;/p&gt;
+&lt;p&gt;The second part of the system — computer — takes two inputs: an input data and the program. The task of the computer is to apply the program to the input data and produce an output.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_juw57YNOwhc9IWZcFOkggQ.png"
+width="378"
+height="503"
+srcset="https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_juw57YNOwhc9IWZcFOkggQ_hu_65a9b49d2b6e233f.png 480w, https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_juw57YNOwhc9IWZcFOkggQ_hu_6f1f8b8286247e0e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="75"
+data-flex-basis="180px"
+&gt;&lt;/p&gt;
+&lt;p&gt;In actuality the programmer and the computer are both the neural networks and the program is a N-dimensional vector. Because both of the parts are differentiable we could backpropagate through the whole system to train both programmer and computer to work coherently. Furthermore we may propagate through several steps of the pipeline to get better results. With this architecture we could have a system that may take an arbitrary number of examples and produce a solution to a new input based on the program it comes up with.&lt;/p&gt;
+&lt;p&gt;To test this idea I created a small dataset resembling the ARC, that was partially created by hand and partially generated on the fly, but with some additional restrictions: all tasks have 6x6 grids, each cell has only two states (black and white), all tasks have exactly 5 examples.&lt;/p&gt;
+&lt;p&gt;Here is a little glimpse of how the network performed on the tasks:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_D8LE7ETBIURSQyBYaEUl9g.png"
+width="2400"
+height="410"
+srcset="https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_D8LE7ETBIURSQyBYaEUl9g_hu_a8a43799b06fa8a2.png 480w, https://volotat.github.io/p/neurogrammer-architecture-arc-challenge/1_D8LE7ETBIURSQyBYaEUl9g_hu_4f4c9f24c6bcbffe.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="585"
+data-flex-basis="1404px"
+&gt;&lt;/p&gt;
+&lt;p&gt;Each column (3x6) here represent one task. Inside the task first colum represent an input, second — an output and the third — a guess of the networks considering all previous examples and current input given.&lt;/p&gt;
+&lt;p&gt;In my experiments this system worked really well for procedurally generated tasks, a bit worse on the in distribution data and horrible on the out of distribution data. In other words, it could solve the type of tasks it saw, but almost always failed on novel ones. Although the scale of the experiments was miniscule and all networks were composed of several fully-connected layers, so there are still a potential to make it work.&lt;/p&gt;</description></item></channel></rss>

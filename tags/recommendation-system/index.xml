@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Recommendation System on Alexey Borsky</title><link>https://volotat.github.io/tags/recommendation-system/</link><description>Recent content in Recommendation System on Alexey Borsky</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 22 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://volotat.github.io/tags/recommendation-system/index.xml" rel="self" type="application/rss+xml"/><item><title>Anagnorisis. Part 2: The Music Recommendation Algorithm.</title><link>https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/</link><pubDate>Sun, 22 Sep 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/AI.jpg" alt="Featured image of post Anagnorisis. Part 2: The Music Recommendation Algorithm." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;One of the main ideas of Anagnorisis is to have completely open recommendation engine available for users to not only view but also modify as they wish. When a user uses the music player integrated into the project, they have the ability to influence how often songs are played by rating them and based on those ratings training personal model that can estimate the ratings of the user.&lt;/p&gt;
+&lt;p&gt;In particular the mechanism looks like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;User sets up the path to local music folder&lt;/li&gt;
+&lt;li&gt;Rates some of the songs according to their own preferences&lt;/li&gt;
+&lt;li&gt;After gathering some data goes to “Train” page and press “Train music evaluator” to train the preference model&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After the training is complete one can enjoy their music, but this time, when the music is selected it will be rated by the model (in case it was not rated by the user already) and therefore adjust the probability of it occurring in the playlist.&lt;/p&gt;
+&lt;p&gt;To calculate the actual probability, the music recommendation system combines various factors — user ratings, model predictions, play history, and skips, as well as time since the last play of the song — into a mathematical formula that determines the probability of each song being selected. By balancing these influences, the system provides a personalized and dynamic music recommendation experience. Below is a more detailed explanation of the math behind the algorithm.&lt;/p&gt;
+&lt;h2 id="music-recommendation-system"&gt;Music recommendation system
+&lt;/h2&gt;&lt;p&gt;Music recommendations are based on the two scores: user scores and internal score. While the user score is static, the internal score is dependent on the act of listening. The initial internal score is always 0, it gets higher if the user listens to the whole song and gets lower if the user skips it.&lt;/p&gt;
+&lt;h2 id="calculating-probabilies-for-song-selection"&gt;Calculating probabilies for song selection
+&lt;/h2&gt;&lt;h3 id="user-ratings-and-missing-data"&gt;User Ratings and Missing Data
+&lt;/h3&gt;&lt;p&gt;The starting point is user ratings. If a song has a rating, it uses that; if not, it uses a fallback mechanism.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;User rating&lt;/strong&gt;: $ R_u $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model rating&lt;/strong&gt;: $ R_m $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mean user rating&lt;/strong&gt;: $ R_{\text{mean}} $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For each song, the system checks whether a user or model rating exists. If neither is present, the system assumes the rating is the mean value of all user ratings.&lt;/p&gt;
+$$
+R = \begin{cases}
+R_u &amp; \text{if } R_u \text{ exists} \\
+R_m &amp; \text{if } R_u \text{ does not exist and } R_m \text{ exists} \\
+R_{\text{mean}} &amp; \text{if neither } R_u \text{ nor } R_m \text{ exists}
+\end{cases}
+$$&lt;p&gt;This ensures every song gets a score.&lt;/p&gt;
+&lt;h3 id="adjusting-and-normalizing-scores"&gt;Adjusting and Normalizing Scores
+&lt;/h3&gt;&lt;p&gt;Once the ratings are gathered, they need to be adjusted for fairness. The system normalizes them and adds some weight to higher-rated songs. The normalization process is:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ensure no score is zero&lt;/strong&gt; by adding a small constant (0.1) to the score:&lt;/p&gt;
+&lt;p&gt;$ R' = \max(0.1, R) $&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Amplify high ratings&lt;/strong&gt; by normalizing the scores and then squaring them to give higher-rated songs more weight:&lt;/p&gt;
+&lt;p&gt;$ R_{\text{adjusted}} = \left( \frac{R'}{10} \right)^2 $&lt;/p&gt;
+&lt;p&gt;This squaring makes songs with higher ratings much more likely to be chosen, while ensuring lower-rated songs still have a small chance.&lt;/p&gt;
+&lt;h3 id="skip-and-play-history"&gt;Skip and Play History
+&lt;/h3&gt;&lt;p&gt;The next adjustment comes from considering how often a song has been played versus skipped:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Full plays&lt;/strong&gt;: $ P_f $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Skips&lt;/strong&gt;: $ P_s $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;strong&gt;skip score&lt;/strong&gt; is calculated using the difference between full plays and skips, normalized by an empirically chosen factor of 5.&lt;/p&gt;
+&lt;p&gt;$ S_{\text{skip}} = \sigma \left( \frac{5 + P_f - P_s}{5} \right) $&lt;/p&gt;
+&lt;p&gt;where σ(x) is the &lt;strong&gt;sigmoid function&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;$ \sigma(x) = \frac{1}{1 + e^{-x}} $&lt;/p&gt;
+&lt;p&gt;This ensures that the skip score stays in a meaningful range between 0 and 1.&lt;/p&gt;
+&lt;h3 id="time-since-last-played"&gt;Time Since Last Played
+&lt;/h3&gt;&lt;p&gt;To promote variety, the system boosts the chances for songs that haven’t been played recently. The system calculates a &lt;strong&gt;last played score&lt;/strong&gt; based on how recently the song was played compared to other songs.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Index of song&lt;/strong&gt; in the list sorted by last played: $ I_{\text{last}} $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Total number of songs&lt;/strong&gt;: $ N $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The last played score is calculated as:&lt;/p&gt;
+&lt;p&gt;$ S_{\text{time}} = \frac{I_{\text{last}}}{N} $&lt;/p&gt;
+&lt;p&gt;Songs that haven’t been played in a long time get a higher score, while recently played songs get a lower score.&lt;/p&gt;
+&lt;h3 id="final-score-calculation"&gt;Final Score Calculation
+&lt;/h3&gt;&lt;p&gt;Now that we have all the factors:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Adjusted rating: $ R_{\text{adjusted}} $&lt;/li&gt;
+&lt;li&gt;Skip score: $ S_{\text{skip}} $&lt;/li&gt;
+&lt;li&gt;Last played score: $ S_{\text{time}} $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The final score for each song is a product of these three components:&lt;/p&gt;
+&lt;p&gt;$ S_{\text{final}} = R_{\text{adjusted}} \times S_{\text{skip}} \times S_{\text{time}} $&lt;/p&gt;
+&lt;p&gt;This final score \( S_{\text{final}} \) represents how likely a song is to be selected.&lt;/p&gt;
+&lt;h3 id="calculating-probabilities"&gt;Calculating Probabilities
+&lt;/h3&gt;&lt;p&gt;Once the final scores are calculated for all songs, they are converted into probabilities. The probability of a song $ i $ being selected is its score divided by the sum of all scores:&lt;/p&gt;
+&lt;p&gt;$ P_i = \frac{S_{\text{final}, i}}{\sum_{j=1}^{N} S_{\text{final}, j}} $&lt;/p&gt;
+&lt;p&gt;This ensures that the probabilities sum to 1, and each song’s chance of being selected is proportional to its score.&lt;/p&gt;
+&lt;h3 id="random-selection"&gt;Random Selection
+&lt;/h3&gt;&lt;p&gt;Finally, the system uses these probabilities to randomly select a song. A song with a higher probability $ P_i $ is more likely to be chosen, but even songs with lower probabilities still have a chance based on their final score.&lt;/p&gt;
+&lt;h3 id="example-calculation"&gt;Example Calculation
+&lt;/h3&gt;&lt;p&gt;Let’s say we have three songs with the following details:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Song&lt;/th&gt;
+&lt;th&gt;User Rating&lt;/th&gt;
+&lt;th&gt;Full Plays&lt;/th&gt;
+&lt;th&gt;Skips&lt;/th&gt;
+&lt;th&gt;Last Played (days ago)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;A&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Adjusted Ratings&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ R_{\text{adjusted}} = \left( \frac{8}{10} \right)^2 = 0.64 $&lt;/li&gt;
+&lt;li&gt;Song B: $ R_{\text{adjusted}} = \left( \frac{6}{10} \right)^2 = 0.36 $&lt;/li&gt;
+&lt;li&gt;Song C uses the mean rating (say 7): $ R_{\text{adjusted}} = \left( \frac{7}{10} \right)^2 = 0.49 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Skip Scores&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ S_{\text{skip}} = \sigma \left( \frac{5 + 10 - 2}{5} \right) = \sigma(2.6) \approx 0.93 $&lt;/li&gt;
+&lt;li&gt;Song B: $ S_{\text{skip}} = \sigma \left( \frac{5 + 5 - 3}{5} \right) = \sigma(1.4) \approx 0.80 $&lt;/li&gt;
+&lt;li&gt;Song C: $ S_{\text{skip}} = \sigma \left( \frac{5 + 2 - 5}{5} \right) = \sigma(0.4) \approx 0.60 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Last Played Scores&lt;/strong&gt; (let’s assume there are 3 songs total):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A (played 7 days ago): $ S_{\text{time}} = \frac{2}{3} \approx 0.67 $&lt;/li&gt;
+&lt;li&gt;Song B (played 2 days ago): $ S_{\text{time}} = \frac{1}{3} \approx 0.33 $&lt;/li&gt;
+&lt;li&gt;Song C (played 30 days ago): $ S_{\text{time}} = \frac{3}{3} = 1.0 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Final Scores&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ S_{\text{final}} = 0.64 \times 0.93 \times 0.67 \approx 0.40 $&lt;/li&gt;
+&lt;li&gt;Song B: $ S_{\text{final}} = 0.36 \times 0.80 \times 0.33 \approx 0.095 $&lt;/li&gt;
+&lt;li&gt;Song C: $ S_{\text{final}} = 0.49 \times 0.60 \times 1.0 \approx 0.29 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Probabilities&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;$ P_A = \frac{0.40}{0.40 + 0.095 + 0.29} \approx 0.50 $&lt;br&gt;
+$ P_B = \frac{0.095}{0.40 + 0.095 + 0.29} \approx 0.12 $&lt;br&gt;
+$ P_C = \frac{0.29}{0.40 + 0.095 + 0.29} \approx 0.36 $&lt;/p&gt;
+&lt;p&gt;In this case, Song A has a 50% chance of being selected, Song B has a 12% chance, and Song C has a 36% chance.&lt;/p&gt;
+&lt;h2 id="future-plans"&gt;Future plans
+&lt;/h2&gt;&lt;p&gt;In future I would also like to add more different options of building a current playlist. One of the ideas is a “chain mode” that takes selected by the user song as a seed and finds the most similar song, based on the embeddings, then finds the most similar to a next song and so on.&lt;/p&gt;
+&lt;p&gt;In case there would be a &lt;a class="link" href="https://github.com/openai/CLIP" target="_blank" rel="noopener"
+&gt;CLIP&lt;/a&gt;-like model for audio in the future, I would also like to implement prompt-based playlist generation. One could simply describe the mood of the music they would like to listen and the proper playlist be generated on the fly from this description.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 1: A Vision for Better Information Management.</title><link>https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/</link><pubDate>Sun, 12 May 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/cover.jpg" alt="Featured image of post Anagnorisis. Part 1: A Vision for Better Information Management." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;Many years ago there was a music streaming service called &lt;a class="link" href="https://en.wikipedia.org/wiki/Grooveshark" target="_blank" rel="noopener"
+&gt;Grooveshark&lt;/a&gt;. While being one of the first of such services it allowed things that would be unheard of today — free access to a huge music library and an option for any user to upload their own music to the website. This created quite a unique environment where you can easily find even the most obscure music you like to listen to. Furthermore there was a &amp;ldquo;radio mode&amp;rdquo; that automatically selected the music that you would like to listen, basically the same as any other today&amp;rsquo;s streaming service with one little exception — it was actually good. I was able to listen to music for hours and almost always it was the music I like that allowed me to discover many new bands that I like till this day. Unfortunately, on April 30, 2015 the site was shut down as part of a settlement of the copyright infringement lawsuits between the service and Universal Music Group, Sony Music Entertainment, and Warner Music Group.&lt;/p&gt;
+&lt;p&gt;Since then I have tried many other alternatives such as spotify, pandora, youtube music and others. None of them ever worked for me as well as Grooveshark. First of all for a long time many of them simply were not working for my country of residence, but even when they start working there was a problem — recommendations worked really badly. Mostly the recommendations were good only for the first few songs, but after that it always started to diverge into &amp;ldquo;popular&amp;rdquo; or rather &amp;ldquo;promoted&amp;rdquo; music that I don&amp;rsquo;t really like. And yes, it did not matter if it was paid or free version. The suspicion started to grow, that many services use music recommendation engines as subtle manipulation to promote some particular artists rather than satisfying my needs as a customer.&lt;/p&gt;
+&lt;p&gt;This led me into rethinking the whole idea of recommendation algorithms and how much of it is what we want to see, and how much of it is what the people in control of it want or don&amp;rsquo;t want to show.&lt;/p&gt;
+&lt;h2 id="controlling-the-algorithm-not-the-other-wayaround"&gt;Controlling the Algorithm. Not the other way around.
+&lt;/h2&gt;&lt;p&gt;There are several different ways of how we can sort information. Some popular social media, such as &lt;a class="link" href="https://www.reddit.com/" target="_blank" rel="noopener"
+&gt;Reddit&lt;/a&gt; heavily rely on direct human feedback for it. While this approach is clearly working it also requires a lot of moderation efforts. And because of its nature, posts on reddit get more attention when they satisfy the interest of the whole community rather than a particular person.&lt;/p&gt;
+&lt;p&gt;Another widespread approach that recommendation systems use is &lt;a class="link" href="https://en.wikipedia.org/wiki/Collaborative_filtering" target="_blank" rel="noopener"
+&gt;Collaborative filtering&lt;/a&gt;. It uses personal feedback from some users to predict preferences of other users. Websites such as Spotify or Youtube in its core heavily rely on this approach or at least relied in the past. The main drawback of this approach that you do need a lot of users and their personal data to make it work and even then there are no guarantee that it will always work for all users as they might have some set of interests that were not seen previously.&lt;/p&gt;
+&lt;p&gt;Finally with the rise of Machine Learning a new approach has risen — &lt;a class="link" href="https://arxiv.org/pdf/2310.18608.pdf" target="_blank" rel="noopener"
+&gt;Embedding-based recommender systems&lt;/a&gt;. While this is an umbrella term that implies many different techniques, the general idea behind it is to use embeddings generated by some ML model directly from the data to then predict how well this data is suited for a particular user. This is the only approach that could work without a huge user base, using only a single user feedback. As such, it opens a new exciting possibility — a recommendation system that works completely locally on users&amp;rsquo; personal devices. If implemented as an open source project such a recommendation system would be completely open to the user and controlled only by the user.&lt;/p&gt;
+&lt;h2 id="the-nextfrontier"&gt;The Next Frontier
+&lt;/h2&gt;&lt;p&gt;Let&amp;rsquo;s spend a minute trying to imagine how a &amp;ldquo;perfect&amp;rdquo; recommendation system might work. For a brief moment imagine that our system is totally agnostic to what kind of data it can process. No matter if it is music, videos, news or anything else. To extract embeddings of the data we will use some ML model that could take any data as an input and produce a meaningful embedding of it.&lt;/p&gt;
+&lt;p&gt;Here is some basic principle that I would like this system to satisfy:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;First of all, it should give valuable recommendations. Obviously. It should allow to sort and filter the vast amount of information.&lt;/li&gt;
+&lt;li&gt;All the data about the user and about the user&amp;rsquo;s preferences should stay on their own personal devices and should be accessible only by the users.&lt;/li&gt;
+&lt;li&gt;It should learn from the user&amp;rsquo;s feedback and change its recommendations alongside changing interests of the user.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can use our ML model to generate embedding from the big pile of data, and present some of this data to the user in the form of UI interface. Like a music player, for example. Then we collect user feedback about the data and train another ML model that takes embeddings as inputs and predicts some score representing how relevant this data is for the user. We then can use this new model to suggest better recommendations, collect more data and repeat this process again and again, providing a more and more satisfying experience. And all of those steps might be performed locally, just as we wished earlier.&lt;/p&gt;
+&lt;p&gt;Here is the little diagram showing how the dataflow in such system may look like:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph.png"
+width="3646"
+height="2394"
+srcset="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph_hu_ba1a9f042994e1b0.png 480w, https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph_hu_c6e29faaaf258bb3.png 1024w"
+loading="lazy"
+alt="A rough representation on how such recommendation system might work"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+&gt;&lt;/p&gt;
+&lt;p&gt;I particularly like the option of using &lt;a class="link" href="https://en.wikipedia.org/wiki/Peer-to-peer" target="_blank" rel="noopener"
+&gt;p2p Network&lt;/a&gt; as a main datasource of such system. In this case we can completely move away from centralized services that control the flow of information and give users a choice to choose what kind of data they need, without any need for content moderation or sharing their personal data. To speed up calculations and not spend time and resources downloading unnecessary data, the data embeddings might be precalculated on the data provider side. So we can check if the data is valuable for us at first and only then accessing it.&lt;/p&gt;
+&lt;p&gt;To give a rating for a particular embedding we can train a model from scratch that takes embeddings as an input and predicts a value that estimates a score that a user would give to the data themselves. Right now Anagnorisis trains a separate evaluation network for each type of data, but in the future I would like to explore a more general approach, for example a multimodal transformer that could take text and embeddings as its input and produce interest scores as an output. While it would be computationally much slower than using some specialized model, it opens up new amazing possibilities that will be discussed later in this series.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Anagnorisis</title><link>https://volotat.github.io/projects/2023-10-08-anagnorisis/</link><pubDate>Sun, 08 Oct 2023 00:00:00 +0000</pubDate><guid>https://volotat.github.io/projects/2023-10-08-anagnorisis/</guid><description>&lt;img src="https://volotat.github.io/projects/2023-10-08-anagnorisis/anagnorisis-screenshot%20from%202026-01-02.png" alt="Featured image of post Anagnorisis" /&gt;&lt;p&gt;Completely local data-management platform with built in trainable recommendation engine.&lt;/p&gt;
+&lt;p&gt;The core idea is to create a self-hosted local-first media platform where you can rate your data, and the system trains a personal model to understand your preferences. This model then sorts your data based on your predicted interest, creating a personalized filter for any type of media you might have — images, music, videos, articles, and more.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Local First:&lt;/strong&gt; All data always stays on your device only. All models are trained and inferenced locally.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI Powered:&lt;/strong&gt; Uses advanced embeddings (CLAP, SigLIP, Jina) to understand, search and filter your content and estimate preferences.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FullStack:&lt;/strong&gt; Built with Flask, Bulma, Transformers, and PyTorch. Uses simple Docker setup for easy deployment.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Open Source:&lt;/strong&gt; AGPL-3.0 license. Contributions, feedback and support are always welcome!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Status:&lt;/strong&gt; Active Development.&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;View on GitHub&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

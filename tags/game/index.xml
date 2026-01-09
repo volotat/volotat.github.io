@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Game on Alexey Borsky</title><link>https://volotat.github.io/tags/game/</link><description>Recent content in Game on Alexey Borsky</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 26 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://volotat.github.io/tags/game/index.xml" rel="self" type="application/rss+xml"/><item><title>The ARC Game</title><link>https://volotat.github.io/projects/2021-07-26-the-arc-game/</link><pubDate>Mon, 26 Jul 2021 00:00:00 +0000</pubDate><guid>https://volotat.github.io/projects/2021-07-26-the-arc-game/</guid><description>&lt;img src="https://volotat.github.io/projects/2021-07-26-the-arc-game/level_example.jpg" alt="Featured image of post The ARC Game" /&gt;&lt;p&gt;The Abstraction and Reasoning Corpus made into a web game.&lt;/p&gt;
+&lt;p&gt;The aim of this project is to create an easy-to-use interface for François Chollet&amp;rsquo;s &lt;a class="link" href="https://github.com/fchollet/ARC-AGI" target="_blank" rel="noopener"
+&gt;Abstraction and Reasoning Corpus (ARC-AGI)&lt;/a&gt;, designed so that children as young as three years old can play with it. This tool explores the potential of using ARC as educational material for developing abstraction and reasoning skills in young kids, challenging cognitive abilities such as pattern recognition, logical reasoning, and problem-solving.&lt;/p&gt;
+&lt;p&gt;The game presents visual tasks consisting of grid pairs that represent a transformation (input → output). The player must deduce the transformation rule from the examples and apply it to a test grid.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Child-Friendly Interface:&lt;/strong&gt; Simplified controls allow for painting, dragging to fill, and copying grids, making it accessible for early childhood development.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fixed Grid Sizes:&lt;/strong&gt; Unlike the original ARC where output size is part of the solution, here the output grid size is pre-set to reduce complexity and focus on the transformation logic.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Printable Version:&lt;/strong&gt; Tasks can be automatically formatted and printed on paper with adjusted colors (e.g., swapping black for white) for offline solving with markers or pencils.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Status:&lt;/strong&gt; Not Maintained.&lt;/p&gt;
+&lt;h3 id="cited-in-scientific-literature"&gt;Cited in Scientific Literature
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://pub.tik.ee.ethz.ch/students/2021-HS/BA-2021-38.pdf" target="_blank" rel="noopener"
+&gt;Abstraction and Reasoning Challenge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://arxiv.org/abs/2403.11793" target="_blank" rel="noopener"
+&gt;Reasoning Abilities of Large Language Models: In-Depth Analysis on the Abstraction and Reasoning Corpus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://arxiv.org/pdf/2410.07866" target="_blank" rel="noopener"
+&gt;System 2 Reasoning for Human-AI Alignment: Generality and Adaptivity via ARC-AG&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://dl.acm.org/doi/abs/10.1145/3711896.3736831" target="_blank" rel="noopener"
+&gt;Addressing and Visualizing Misalignments in Human Task-Solving Trajectories&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="link" href="https://volotat.github.io/ARC-Game/" target="_blank" rel="noopener"
+&gt;Play the Game&lt;/a&gt; | &lt;a class="link" href="https://github.com/volotat/ARC-Game" target="_blank" rel="noopener"
+&gt;View on GitHub&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
