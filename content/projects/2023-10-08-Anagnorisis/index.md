@@ -12,6 +12,7 @@ tags:
     - Open Source
     - Personalization
     - Data Privacy
+projectWeight: 1
 ---
 
 Completely local data-management platform with built in trainable recommendation engine.  

@@ -1,6 +1,8 @@
 {{ define "main" }}
     <section class="article-list">
-        {{ range .Paginator.Pages }}
+        {{/* Sort pages by 'projectWeight' param. Items without it are placed at the end. */}}
+        {{ $paginator := .Paginate (.Pages.ByParam "projectWeight") }}
+        {{ range $paginator.Pages }}
             {{/* Use the new project-card partial here */}}
             {{ partial "article-list/project-card" . }}
         {{ end }}

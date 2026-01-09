@@ -12,6 +12,7 @@ tags:
 categories:
     - "Projects"
     - "Highlights"
+projectWeight: 2
 ---
 
 Research project exploring the possibility of creating a continuous, visual language that hint at the possibility of direct understanding of the embedding spaces produced by ML models.

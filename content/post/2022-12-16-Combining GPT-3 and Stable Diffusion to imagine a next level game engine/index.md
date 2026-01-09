@@ -10,7 +10,7 @@ tags:
     - Stable Diffusion
     - GPT-3
     - Dating Sims
-    - AI In Gaming
+    - AI
     - Machine Learning
 ---
 
