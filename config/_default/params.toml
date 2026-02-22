@@ -1,5 +1,5 @@
 # Pages placed under these sections will be shown on homepage and archive page.
-mainSections = ["post", "projects"]
+mainSections = ["post", "projects", "video"]
 articleSections = ["post"]
 # Output page's full content in RSS.
 rssFullContent = true
@@ -57,13 +57,13 @@ limit = 10
 type = "toc"
 
 [opengraph.twitter]
-site = ""
+site = "@volotat"
 card = "summary_large_image"
 
 [defaultImage.opengraph]
 enabled = false
 local = false
-src = ""
+src = "img/avatar.jpg"
 
 [colorScheme]
 toggle = true
