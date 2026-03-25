@@ -3,6 +3,7 @@ title: "Anagnorisis: Search Your Data Effectively (v0.3.1)"
 date: 2026-02-06
 image: "Anagnorisis. Search Your Data Effectively (v0.3.1).png"
 youtube_id: "X1Go7yYgFlY"
+description: "Anagnorisis is a privacy-first, local recommendation and search system. Version 0.3.1 introduces a unified search bar featuring AI-powered semantic search, content-based discovery, and flexible metadata management—all running 100% locally on your machine."
 categories:
     - Videos
     - Anagnorisis
