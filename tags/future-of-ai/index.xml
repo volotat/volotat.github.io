@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Future of Ai on Alexey Borsky</title><link>https://volotat.github.io/tags/future-of-ai/</link><description>Recent content in Future of Ai on Alexey Borsky</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 21 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://volotat.github.io/tags/future-of-ai/index.xml" rel="self" type="application/rss+xml"/><item><title>There is a way to make training LLMs way cheaper and more accessible.</title><link>https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/</link><pubDate>Thu, 21 Aug 2025 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/</guid><description>&lt;img src="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/0_4fPJHVhCQeYNef_n.png" alt="Featured image of post There is a way to make training LLMs way cheaper and more accessible." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;What if I told you that a vast amount of the computation that goes into training every new Large Language Model is completely redundant?&lt;/p&gt;
+&lt;p&gt;This isn’t just a minor inefficiency, it’s a fundamental flaw in our current approach. We are spending billions of dollars and burning gigawatts of energy for every major AI company to teach their models the same fundamental understanding of the world, over and over again.&lt;/p&gt;
+&lt;p&gt;Here is the claim I am going to justify: &lt;strong&gt;the hardest part of what all LLMs learn is NOT next-token prediction, but rather the arbitrary data compression into a meaningful vector representation.&lt;/strong&gt; And here’s the catch — this representation is fundamentally the same for every model (up to symmetries and precision).&lt;/p&gt;
+&lt;p&gt;The work that inspires this claim is &lt;a class="link" href="https://arxiv.org/pdf/2405.07987" target="_blank" rel="noopener"
+&gt;the &lt;strong&gt;Platonic Representation Hypothesis&lt;/strong&gt;&lt;/a&gt;. This hypothesis suggests that for any given data, there exists a “perfect” or ideal mathematical representation — a Platonic form, if you will. All our current models are simply trying to find their own noisy, imperfect approximation of this one true representation.&lt;/p&gt;
+&lt;h2 id="how-a-perfect-llm-should-look"&gt;How a “Perfect” LLM Should Look
+&lt;/h2&gt;&lt;p&gt;If the Platonic Representation Hypothesis holds true, it means we’re building our models upside down. We train monolithic, end-to-end models that learn to embed data and reason about it at the same time. Instead, we should separate these concerns.&lt;/p&gt;
+&lt;p&gt;The future of efficient AI should be built on a simple, two-part architecture:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;The Universal Encoder:&lt;/strong&gt; A single, global, state-of-the-art model that does only one thing: convert any piece of data (text, images, sound, etc., in a continuous sequence) into its perfect “Platonic” vector embedding. This model would be trained once on a colossal dataset and then frozen, serving as a foundational piece of public infrastructure.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The Task Model:&lt;/strong&gt; A much smaller, specialized model that takes these “perfect” embedding (that represents all the current context window that goes to the model) as an input and learns to perform a specific task. This could be next-token prediction, classification, image denoising (for diffusion models), or even complex, one-shot reasoning like question answering or code generation. All personalization, alignment, and RLHF would happen at this much cheaper, more efficient level.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_x7iLYZUfjMjV7oNkTjRShA.png"
+width="444"
+height="532"
+srcset="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_x7iLYZUfjMjV7oNkTjRShA_hu_e5f393929ad642bc.png 480w, https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_x7iLYZUfjMjV7oNkTjRShA_hu_b60bb99d25994b49.png 1024w"
+loading="lazy"
+alt="A. — Current approach. B. — Proposed approach."
+class="gallery-image"
+data-flex-grow="83"
+data-flex-basis="200px"
+&gt;&lt;/p&gt;
+&lt;p&gt;Think of it like this: today, every AI student has to first invent an entire language from scratch — its alphabet, vocabulary, and grammar — before they can even begin to learn to write an essay. In the new paradigm, they all share a common, universal language (the Universal Embeddings) with all the world’s concepts already encoded within it. The students (the Task Models) can then focus immediately on the creative act of writing the essay. Training these task-specific models would be orders of magnitude cheaper and faster.&lt;/p&gt;
+&lt;h2 id="universal-relational-embedding-space"&gt;Universal, Relational Embedding Space
+&lt;/h2&gt;&lt;p&gt;So, how do we find these universal embeddings and represent them in a way that is stable and suitable for any task?&lt;/p&gt;
+&lt;p&gt;Right now, embeddings are encoded as a point in a very high-dimensional space. The problem is that the coordinate system of this space is set arbitrarily during the training process. This means every model has its own unique, incompatible space. Training the same model twice will generate two completely different spaces. You can’t just take an embedding from GPT-4 and use it in Gemini; their internal “languages” are different.&lt;/p&gt;
+&lt;p&gt;Recent research on the &lt;a class="link" href="https://arxiv.org/pdf/2505.12540" target="_blank" rel="noopener"
+&gt;Universal Geometry of Embeddings&lt;/a&gt; shows that while the coordinate systems are different, the underlying geometric relationships &lt;em&gt;between&lt;/em&gt; the embeddings are remarkably similar. We can remap one model’s space onto another. But this is a patch, not a solution. It proves the point: what truly matters isn’t the absolute coordinates of a concept, but its &lt;em&gt;relationships&lt;/em&gt; to all other concepts.&lt;/p&gt;
+&lt;p&gt;What we truly care about are the &lt;strong&gt;distances&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of a vector representing a point in space, what if an embedding vector represented a list of distances?&lt;/p&gt;
+&lt;p&gt;Imagine trying to describe the location of your city. You could give its absolute GPS coordinates (e.g., 46.10° N, 19.66° E). This is the current approach — precise, but meaningless without the entire GPS coordinate system.&lt;/p&gt;
+&lt;p&gt;Alternatively, you could describe it relationally: “It’s 180km from Budapest, 190km from Belgrade, 560km from Vienna…” This is a &lt;em&gt;distance-based&lt;/em&gt; representation. It’s inherently meaningful.&lt;/p&gt;
+&lt;p&gt;This is how our Universal Embedding should work. Each vector would not be a coordinate, but a list of distances to a set of universal, canonical “landmark concepts” in the embedding space.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;embedding(&amp;quot;cat&amp;quot;) = [dist_to_concept_1, dist_to_concept_2, dist_to_concept_3, ...]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_Tgc3uuUVrYti-zqfKCahSw.png"
+width="1400"
+height="700"
+srcset="https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_Tgc3uuUVrYti-zqfKCahSw_hu_b7f7318b1358607c.png 480w, https://volotat.github.io/p/there-is-a-way-to-make-training-llms-way-cheaper-and-more-accessible/1_Tgc3uuUVrYti-zqfKCahSw_hu_c5821459ded753bc.png 1024w"
+loading="lazy"
+alt="captionless image"
+class="gallery-image"
+data-flex-grow="200"
+data-flex-basis="480px"
+&gt;&lt;/p&gt;
+&lt;p&gt;We don’t even need to know what these landmark concepts are explicitly. They can be learned by the model. &lt;strong&gt;The key is that they are ordered by importance, from the most general to the most specific.&lt;/strong&gt; The first value might represent the distance to the abstract concept of “objectness,” the second to “living thing,” the tenth to “mammal,” and so on.&lt;/p&gt;
+&lt;p&gt;This structure has two incredible properties:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;It’s Stable:&lt;/strong&gt; Because it’s based on internal distances, it’s invariant to rotation or translation. Every training run would converge to the same relational representation, creating a stable and universal standard.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;It’s Inherently Composable:&lt;/strong&gt; This is very similar to the idea of &lt;a class="link" href="https://huggingface.co/papers/2205.13147" target="_blank" rel="noopener"
+&gt;Matryoshka Representation Learning&lt;/a&gt;. If you need a smaller, less precise embedding, you can just take the first N values of the vector! You’re simply using the distances to the most important landmark concepts, giving you a coarse but still highly effective representation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="we-need-the-embedding-model"&gt;We Need THE Embedding Model
+&lt;/h2&gt;&lt;p&gt;The centerpiece of this vision is the &lt;strong&gt;Universal Encoder&lt;/strong&gt;, or THE Embedding Model. This wouldn’t be just another model like &lt;code&gt;text-embedding-3-large&lt;/code&gt;; it would be a foundational piece of infrastructure for the entire AI ecosystem, akin to the GPS network or the TCP/IP protocol.&lt;/p&gt;
+&lt;p&gt;This model, trained on a dataset far beyond the scale of any single company, would create this true distance-based, Matryoshka-style embedding space. This would be the definitive, canonical representation of knowledge.&lt;/p&gt;
+&lt;h2 id="the-benefits-would-be-transformative"&gt;The Benefits Would Be Transformative
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Backward Compatibility and Continuous Improvement:&lt;/strong&gt; New versions of the Universal Encoder would be released as research progresses. Since each new version is just a better approximation of the same underlying Platonic representation, they should be largely backward compatible. This means you could swap in the new encoder and expect any pre-trained, task-specific models to work with the same or even better performance, with minimal re-training.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Simplified RAG and Vector Search:&lt;/strong&gt; Retrieval-Augmented Generation (RAG) and all vector search applications would be greatly simplified. You would only need a single base embedding model for any type of data. Your text, image, and audio databases would all exist within the same unified, coherent vector space, making cross-modal search and reasoning trivial.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Democratization of AI:&lt;/strong&gt; The colossal cost of training foundational models from scratch would be a one-time, collaborative effort. Researchers, startups, and even individuals could then build powerful, specialized AI applications by training only the small, inexpensive task models on top of the universal embeddings.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="a-call-for-a-new-direction"&gt;A Call for a New Direction
+&lt;/h2&gt;&lt;p&gt;I truly believe this is the future we must build. With this approach, AI could become far more open, accessible, and environmentally sustainable.&lt;/p&gt;
+&lt;p&gt;However, this vision is a direct threat to the power held by the big companies that currently dominate the AI space. Their moat is the sheer scale of their proprietary, monolithically trained models. A shared, universal encoder is not in their immediate financial interest.&lt;/p&gt;
+&lt;p&gt;Therefore, this message is a call to action for the global ML community and AI enthusiasts. The creation of such a foundational model will likely not come from a single corporation, but from a decentralized, open-source effort. Only as a global community do we have a shot at creating an AI future that is more efficient, decentralized, and accessible for everyone.&lt;/p&gt;</description></item></channel></rss>

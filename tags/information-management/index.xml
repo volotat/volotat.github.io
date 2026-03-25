@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Information Management on Alexey Borsky</title><link>https://volotat.github.io/tags/information-management/</link><description>Recent content in Information Management on Alexey Borsky</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 06 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://volotat.github.io/tags/information-management/index.xml" rel="self" type="application/rss+xml"/><item><title>Anagnorisis: Search Your Data Effectively (v0.3.1)</title><link>https://volotat.github.io/video/2026-02-06-anagnorisis.-search-your-data-effectively-v0.3.1/</link><pubDate>Fri, 06 Feb 2026 00:00:00 +0000</pubDate><guid>https://volotat.github.io/video/2026-02-06-anagnorisis.-search-your-data-effectively-v0.3.1/</guid><description>&lt;img src="https://volotat.github.io/video/2026-02-06-anagnorisis.-search-your-data-effectively-v0.3.1/Anagnorisis.%20Search%20Your%20Data%20Effectively%20%28v0.3.1%29.png" alt="Featured image of post Anagnorisis: Search Your Data Effectively (v0.3.1)" /&gt;&lt;p&gt;Anagnorisis is a privacy-first, local recommendation and search system. Version 0.3.1 introduces a unified search bar featuring AI-powered semantic search, content-based discovery, and flexible metadata management—all running 100% locally on your machine.&lt;/p&gt;
+&lt;p&gt;Background audio: PhonZz - Angelic Pad Loop&lt;br&gt;
+GitHub: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Below is the transcription of the video.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="opening"&gt;Opening
+&lt;/h3&gt;&lt;p&gt;Welcome to the Anagnorisis Anagnorisis is a local recommendation system designed to let you search, filter, and enjoy your personal data securely, all on your local machine. Unlike centralized services that control what you see and collect your personal information, Anagnorisis learns from your feedback completely locally on your device only.&lt;/p&gt;
+&lt;p&gt;The goal is to give you powerful tool for information management, where the algorithm would work for you and not the other way around.&lt;/p&gt;
+&lt;p&gt;Today I am gonna present you the new powerful search capabilities introduced in new version of the project.&lt;/p&gt;
+&lt;h3 id="unified-search-bar"&gt;Unified Search Bar
+&lt;/h3&gt;&lt;p&gt;One of the most significant improvements in this version is the unified search bar that is now available in all modules. Let&amp;rsquo;s look at how it is structured.&lt;/p&gt;
+&lt;p&gt;First you can see one of the three search modes available: &lt;code&gt;file-name-based&lt;/code&gt; search, &lt;code&gt;content-based&lt;/code&gt; search and &lt;code&gt;metadata-based&lt;/code&gt; search.
+Next to that, you have priority control, which lets you find either the most or least relevant results for your query.
+Then there&amp;rsquo;s the temperature control, which allows you to adjust the randomness of the search results. This is a fantastic tool for discovery, and we’ll take a closer look at it in just a bit.
+Of course, you have the search bar itself.
+And finally, you have a list of special keywords. These are module-specific filters that let you sort your data in unique ways.&lt;/p&gt;
+&lt;h3 id="search-modes"&gt;Search Modes
+&lt;/h3&gt;&lt;p&gt;Let&amp;rsquo;s see how each of these search modes works in practice.&lt;/p&gt;
+&lt;h4 id="file-name-based-search"&gt;File-name-based search
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;File-name-based&lt;/code&gt; search is your classic, fast fuzzy search. When this mode is active, you can quickly find files by their names or the names of the folders they&amp;rsquo;re contained in. You don&amp;rsquo;t have to be too precise here, as the search is tolerant to typos. This is perfect for when you know exactly what you&amp;rsquo;re looking for.&lt;/p&gt;
+&lt;p&gt;This search mode works exactly the same in all modules of the system.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Show examples: searching for &amp;ldquo;guitar&amp;rdquo; in Images showing &amp;rsquo;test_guitar.png&amp;rsquo; file appearing first in the list.)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;For example, if we search for &amp;ldquo;guitar&amp;rdquo; in the Images module, with this mode being active, the file named &lt;code&gt;test_guitar.png&lt;/code&gt; appears first in the results.&lt;/p&gt;
+&lt;h4 id="content-based-search"&gt;content-based search
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;content-based&lt;/code&gt; search is a more advanced search mode that uses modern embedding models to understand the actual content of your files. This search mode is especially useful when you don&amp;rsquo;t yet know much about your data, do not have any notes attached to it and want to find something solely based on the content inside the files.&lt;/p&gt;
+&lt;p&gt;This search mode is already available in the Music, Images and Text modules.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Show visual cue: searching for &amp;ldquo;guitar&amp;rdquo; in Images showing different results based on content)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Now, if we do the same search for &amp;ldquo;guitar&amp;rdquo; in the Images module using &lt;code&gt;content-based&lt;/code&gt; search mode, we get a variety of images that contain guitars, even if the file names don&amp;rsquo;t include the word &amp;ldquo;guitar&amp;rdquo; in it.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Show examples: searching for &amp;ldquo;Relaxing instrumental music&amp;rdquo; in Music.)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The same goes for other modules. In the Music module, searching for &amp;ldquo;Relaxing instrumental music&amp;rdquo; brings up tracks that fit that description the most.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Show examples: searching for &amp;ldquo;machine learning&amp;rdquo; in Text.)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In the Text module, searching for &amp;ldquo;machine learning&amp;rdquo; retrieves relevant documents based on their content.&lt;/p&gt;
+&lt;h4 id="metadata-based-search"&gt;metadata-based search
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;metadata-based&lt;/code&gt; search is another advanced search mode that uses embedding models to understand the metadata associated with your files. This search mode analyzes file names, folder paths, internal file&amp;rsquo;s metadata and any additional notes you have stored in external &lt;code&gt;.meta&lt;/code&gt; files. This search mode is especially useful when you have already organized your data with meaningful file and folder names or added your own custom descriptions to your files, as it uses that context to find the most relevant results.&lt;/p&gt;
+&lt;p&gt;For example, if your photos contains information of the place where an image was taken in metadata fields, you can search for these images by simply typing the location in the search bar.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Visual cue: Show search for &amp;lsquo;photo made in Lisbon&amp;rsquo; to find images from that place)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;To see the whole description that is used for the metadata-based search, press the &amp;ldquo;Show full search description&amp;rdquo; in the context menu.&lt;/p&gt;
+&lt;p&gt;To add a custom description, select &amp;ldquo;Edit .meta file&amp;rdquo; from the context menu.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Visual cue: Show the ubuntu ui with files and .meta files)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let me show you how powerful it is on a concrete example. Here’s a photo of some old person. Inside Anagnorisis, I can easily add a description to it, let&amp;rsquo;s simply add the note, &amp;ldquo;My grandfather.&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Visual cue: Show the UI for editing metadata and typing &amp;ldquo;My grandfather&amp;rdquo;.)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This action creates a simple text file right next to the original image. You can edit this file directly with any text editor, giving you full and easy control over your external metadata that do not affect the original file in any way.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Visual cue: Switch to a file explorer view, showing the image file and the new &lt;code&gt;.meta&lt;/code&gt; file next to it. Briefly open the .meta file in a simple text editor.)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Now, watch what happens If I search for &amp;ldquo;my grandpa&amp;rdquo; using &lt;code&gt;metadata-based&lt;/code&gt; search. &lt;em&gt;(showing search results)&lt;/em&gt; Because Anagnorisis uses text embeddings to understand the &lt;em&gt;meaning&lt;/em&gt; behind the words, the search is largely language-independent. You can search in any language you like &lt;em&gt;(showing &amp;ldquo;мой дедушка&amp;rdquo;&amp;hellip; &amp;ldquo;a nagyapám&amp;rdquo;&amp;hellip;)&lt;/em&gt; and the result are going to be roughly the same. This allows you to build a rich, searchable context for your data in any language you&amp;rsquo;re comfortable with, with any words you have in mind at the moment. There are no special formatting rules required; just write naturally and the search engine will try to understand your intention when looking for the data you have requested.&lt;/p&gt;
+&lt;h2 id="controlling-your-results"&gt;Controlling Your Results
+&lt;/h2&gt;&lt;p&gt;Finding the right content is only half the story. Anagnorisis also gives you precise control over how your results are presented.&lt;/p&gt;
+&lt;h3 id="priority-control"&gt;Priority Control
+&lt;/h3&gt;&lt;p&gt;By default, results are sorted by &amp;ldquo;most relevant,&amp;rdquo; bringing the best matches to the top. But what if you’re looking for something that&amp;rsquo;s the opposite of your query? Switching the priority to &amp;ldquo;least relevant&amp;rdquo; will help you with that.&lt;/p&gt;
+&lt;h3 id="temperature-control"&gt;Temperature Control
+&lt;/h3&gt;&lt;p&gt;The temperature setting is your control knob for randomness and discovery. At zero, you get a strictly ordered list based on relevance — perfect for finding a specific item.&lt;/p&gt;
+&lt;p&gt;As you increase the temperature, you introduce a degree of controlled randomness. It intelligently shuffles the results so that highly relevant items are still likely to appear fist, but less obvious ones also get a chance to surface.&lt;/p&gt;
+&lt;p&gt;This mode works especially well in the music module, as any of your search results could be immediately transformed into a playlist for listening session. So when you are looking for something very specific you can find it by the name, with the description of the mood or the request to notes you have attached to the files. But you can also do that, while setting the temperature to a higher value to get a more varied playlist that is still based on your query.&lt;/p&gt;
+&lt;h3 id="special-keyword-filtering"&gt;Special Keyword Filtering
+&lt;/h3&gt;&lt;p&gt;Now let&amp;rsquo;s see how the special keywords work.&lt;/p&gt;
+&lt;p&gt;When you click the special keyword in the search bar the filtering will be applied to your data. Each module has its own set of special keywords that are relevant to the type of data it works with. These search results will not be affected by the search mode selected, but yet still could be controlled with the priority and temperature settings.&lt;/p&gt;
+&lt;p&gt;For example, in the &lt;strong&gt;Music&lt;/strong&gt; module, you can filter by &lt;code&gt;recommendations&lt;/code&gt; from your locally trained recommendation engine, your personal &lt;code&gt;ratings&lt;/code&gt;, completely randomly, by semantic &lt;code&gt;similarity&lt;/code&gt; among the tracks, &lt;code&gt;length&lt;/code&gt; or &lt;code&gt;file size&lt;/code&gt;. You can see how the &lt;code&gt;recommendation&lt;/code&gt; engine works in the internal wiki page of the system.&lt;/p&gt;
+&lt;p&gt;You have the similar filtering options in the &lt;strong&gt;Images&lt;/strong&gt; module. Other modules have their own relevant keywords as well.&lt;/p&gt;
+&lt;h3 id="find-similar-files"&gt;Find Similar Files
+&lt;/h3&gt;&lt;p&gt;Finally, you can always click at any file in the search results and find a similar files to it by pressing the &lt;code&gt;Find similar&lt;/code&gt; button in the context menu. This will perform similarity-based search using the selected file as a query.&lt;/p&gt;
+&lt;h3 id="outro"&gt;Outro
+&lt;/h3&gt;&lt;p&gt;The project allow you to transform your personal static archive into a dynamic, explorable part of your digital life.&lt;/p&gt;
+&lt;p&gt;To get started and explore these features yourself, visit the Anagnorisis GitHub repository, where you can download the project, read the documentation, and stay updated on the progress.&lt;/p&gt;
+&lt;p&gt;Thank you for watching. Till the next time.&lt;/p&gt;</description></item><item><title>Anagnorisis: Music Module Preview (v0.1.6)</title><link>https://volotat.github.io/video/2025-03-18-anagnorisis.-music-module-preview-v0.1.6/</link><pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate><guid>https://volotat.github.io/video/2025-03-18-anagnorisis.-music-module-preview-v0.1.6/</guid><description>&lt;img src="https://volotat.github.io/video/2025-03-18-anagnorisis.-music-module-preview-v0.1.6/Anagnorisis.%20Music%20Module%20Preview%20%28v0.1.6%29.jpeg" alt="Featured image of post Anagnorisis: Music Module Preview (v0.1.6)" /&gt;&lt;p&gt;Anagnorisis is a privacy-first, local recommendation and search system. Version 0.1.6 introduces the Music module, allowing you to manage and enjoy your local music library with powerful search capabilities, personalized recommendations, and a user-friendly interface—all running 100% locally on your machine.&lt;/p&gt;
+&lt;p&gt;Background audio: PhonZz - Angelic Pad Loop&lt;br&gt;
+GitHub: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Below is the transcription of the video.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="anagnorisis---music-module-preview-version-016"&gt;Anagnorisis - Music Module Preview (Version 0.1.6)
+&lt;/h2&gt;&lt;p&gt;Welcome to ‘Anagnorisis’. ‘Anagnorisis’ is a local recommendation system designed to let you search, filter, and enjoy your personal data securely, all on your local machine. Anagnorisis could learn from &lt;em&gt;your&lt;/em&gt; feedback to provide a truly personalized experience. All models are trained and stored privately on your device only.&lt;/p&gt;
+&lt;p&gt;Today, I’m gonna present to you the ‘Music’ module. Let’s see how to use it.&lt;/p&gt;
+&lt;h3 id="setting-up-music-library-path"&gt;Setting up Music Library Path
+&lt;/h3&gt;&lt;p&gt;First, set up the path to your local music library. Copy the folder path into this field, and press the ‘Save’ button.&lt;/p&gt;
+&lt;p&gt;This action informs the system about your local music collection, enabling it to index your library and prepare for personalized music experiences.&lt;/p&gt;
+&lt;h3 id="browsing-music-library"&gt;Browsing Music Library
+&lt;/h3&gt;&lt;p&gt;Now you can explore your music library. Navigate it just like any familiar file browser. Click on a folder to view its content and any subfolders it contains.&lt;/p&gt;
+&lt;p&gt;On the left, you&amp;rsquo;ll see all the music files from the currently selected folder and any subfolders within it, presented in a clear, organized view.&lt;/p&gt;
+&lt;h3 id="filtering-and-searching-music-library"&gt;Filtering and Searching Music Library
+&lt;/h3&gt;&lt;p&gt;The module offers powerful filtering options to help you find the perfect music for any moment. You can search for music files using a text query. Simply type anything you have in mind and press the ‘Search’ button.&lt;/p&gt;
+&lt;p&gt;For instance, you could search for ‘Happy music’ or ‘Christmas songs,’ and the search engine will intelligently suggest music from your local library that best matches your query.&lt;/p&gt;
+&lt;p&gt;Beyond text search, you can also use special keywords to filter your music library in various ways.&lt;/p&gt;
+&lt;p&gt;The ‘file size’ keyword lets you filter by the size of the music file. ‘length’ helps you find tracks of a specific duration. If you&amp;rsquo;re looking to declutter your library, ‘similarity’ can help identify potential duplicates. Keyword ‘random’ is perfect for exploring your library. And ‘rating’ allows you to prioritize music based on your personal scores.&lt;/p&gt;
+&lt;p&gt;Among these keywords there is a special option: ‘recommendation’. It will generate a list of music files based on the recommendation algorithm that we will see closer in just a bit.&lt;/p&gt;
+&lt;h3 id="playlist-panel"&gt;Playlist Panel
+&lt;/h3&gt;&lt;p&gt;After filtering the files to your desire press the &amp;lsquo;Play as playlist’ button to start the listening session. When you activate the playlist, a convenient playlist panel appears on the right side of the screen. Here, you can see the current playlist, easily view upcoming tracks, and navigate through the songs.&lt;/p&gt;
+&lt;h3 id="music-playback-and-rating"&gt;Music Playback and Rating
+&lt;/h3&gt;&lt;p&gt;When music is playing, you&amp;rsquo;ll find a control panel at the bottom of the screen. This panel allows you to pause, resume, skip tracks, and manage your listening session.&lt;/p&gt;
+&lt;p&gt;To personalize your music experience, you can rate the currently playing song using the star rating bar on the right. Your rating is saved directly into the local database and becomes a key factor in training your personal music evaluation model.&lt;/p&gt;
+&lt;h3 id="training-the-music-evaluator-model"&gt;Training the Music Evaluator Model
+&lt;/h3&gt;&lt;p&gt;To enable proper recommendations, you will need to train your personal music evaluation model to understand your musical taste on a deeper level. After you&amp;rsquo;ve rated a good number of songs, go to the &amp;lsquo;Train&amp;rsquo; page and press the &amp;lsquo;Train music evaluator&amp;rsquo; button.&lt;/p&gt;
+&lt;p&gt;This initiates the training of your personal music evaluation model. Once training is complete, the &amp;lsquo;rating&amp;rsquo; and ‘recommendation’ filters will become more finely tuned to your unique preferences, offering a truly personalized music journey. When you see a music that is not rated as you would expect, you can always adjust the rating and retrain the model to reflect your specific tastes. Making the system more accurate and personalized over time.&lt;/p&gt;
+&lt;p&gt;This process is highly optimized and could be easily perform in a couple of minutes on almost any modern hardware.&lt;/p&gt;
+&lt;h3 id="recommendation-engine"&gt;Recommendation Engine
+&lt;/h3&gt;&lt;p&gt;In contrast to many other centralized services, the recommendation algorithm in Anagnorisis is completely open and transparent. Here exactly how it works:&lt;/p&gt;
+&lt;h4 id="internal-rating"&gt;Internal Rating
+&lt;/h4&gt;&lt;p&gt;Anagnorisis&amp;rsquo;s music recommendation system keeps two scores for each song: your &lt;strong&gt;user rating&lt;/strong&gt; and an &lt;strong&gt;internal score&lt;/strong&gt; that adapts based on your listening behavior. To calculate this &lt;strong&gt;internal score&lt;/strong&gt; the engine first calculates the &lt;strong&gt;internal rating&lt;/strong&gt; of the song. If &lt;strong&gt;user rating&lt;/strong&gt; provided, the system prioritizes that. If not, it uses a &lt;strong&gt;model-predicted rating&lt;/strong&gt; and in case even that score is not available it uses average of all other user-provided ratings.&lt;/p&gt;
+&lt;h4 id="adjusted-rating"&gt;Adjusted Rating
+&lt;/h4&gt;&lt;p&gt;To keep the playlist fresh and engaging, the system adjust the rating before using it in further calculations. First, it ensures no song has a zero rating by setting a minimum score making each song having a chance of being played. Then, to emphasize highly-rated songs, it squares the adjusted rating. This adjusted rating becomes a key factor in the final recommendation score&lt;/p&gt;
+&lt;h4 id="skip-score"&gt;Skip Score
+&lt;/h4&gt;&lt;p&gt;Beyond that system keeps track of how often you skip a song and how ofter you listen it fully. Both of these numbers are then used to calculate the &lt;em&gt;skip score&lt;/em&gt; that increase a change of recommending the song that you actually like to listen.&lt;/p&gt;
+&lt;h4 id="last-played-score"&gt;Last Played Score
+&lt;/h4&gt;&lt;p&gt;In the end, the system also takes into account when you last listened to a song. The longer it has been since you last heard it, the more likely it is to going to be recommended, and vice verse.&lt;/p&gt;
+&lt;h4 id="final-score"&gt;Final Score
+&lt;/h4&gt;&lt;p&gt;All of these scores are then multiplied together to calculate the final &lt;strong&gt;internal score&lt;/strong&gt; and the respective selection probability for each song.&lt;/p&gt;
+&lt;h3 id="project-status"&gt;Project Status
+&lt;/h3&gt;&lt;p&gt;Anagnorisis is under active development, with continuous improvements and new features on the horizon. You can find the link to the GitHub repository in the description below.&lt;/p&gt;
+&lt;p&gt;Visit the Anagnorisis GitHub repository to download the project, and stay updated on the latest enhancements.&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 3: Why Should You Go Local?</title><link>https://volotat.github.io/p/anagnorisis-part-3-why-should-you-go-local/</link><pubDate>Thu, 23 Jan 2025 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-3-why-should-you-go-local/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-3-why-should-you-go-local/External-Hard-Drive-Hero.png" alt="Featured image of post Anagnorisis. Part 3: Why Should You Go Local?" /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;In today&amp;rsquo;s digital age, an increasing amount of personal data is stored on cloud services, often beyond our direct control. While these platforms offer convenience, they also pose significant risks regarding data ownership, privacy, and longevity. Recent incidents, such as the cyberattacks on the &lt;a class="link" href="https://web.archive.org/" target="_blank" rel="noopener"
+&gt;Internet Archive&lt;/a&gt;, highlight the vulnerability of digital repositories. In October 2024, the Internet Archive suffered a data breach that &lt;a class="link" href="https://www.wired.com/story/internet-archive-hacked/" target="_blank" rel="noopener"
+&gt;exposed&lt;/a&gt; information from over 31 million user accounts. This breach was accompanied by DDoS attacks, leading to intermittent service &lt;a class="link" href="https://www.theverge.com/2024/10/14/24269741/internet-archive-online-read-only-data-breach-outage" target="_blank" rel="noopener"
+&gt;disruptions&lt;/a&gt;. Furthermore in March 2023, a U.S. District Court ruled that the Internet Archive&amp;rsquo;s practice of lending digitized books online constituted copyright infringement, leading to a permanent &lt;a class="link" href="https://en.wikipedia.org/wiki/Hachette_v._Internet_Archive" target="_blank" rel="noopener"
+&gt;injunction&lt;/a&gt; against such activities. These events underscore how external factors can &lt;a class="link" href="https://brownstone.org/articles/they-are-scrubbing-the-internet-right-now/" target="_blank" rel="noopener"
+&gt;jeopardize&lt;/a&gt; access to information stored online.&lt;/p&gt;
+&lt;p&gt;Moreover, data loss from cloud services is not uncommon. Service outages, cyberattacks, and policy changes can result in the sudden unavailability of personal data. For instance, breaches targeting cloud storage providers have exposed sensitive user information, emphasizing the precarious nature of entrusting data to third-party platforms.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An external hard drive could provide up to &lt;a class="link" href="https://www.theverge.com/2024/12/18/24324143/seagate-32tb-hamr-hard-drive" target="_blank" rel="noopener"
+&gt;32TB of storage&lt;/a&gt; as of january 2025&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="your-data-as-a-reflection-of-your-personality"&gt;Your Data as a Reflection of Your Personality
+&lt;/h2&gt;&lt;p&gt;Every digital interaction we engage in - be it social media activity, spending habits, or smartphone usage - leaves behind a &lt;a class="link" href="https://www.psychologicalscience.org/news/releases/spending-data-personality.html" target="_blank" rel="noopener"
+&gt;footprint&lt;/a&gt; that mirrors aspects of our personality. Similarly, patterns in smartphone usage &lt;a class="link" href="https://pubmed.ncbi.nlm.nih.gov/36738137/" target="_blank" rel="noopener"
+&gt;have been linked&lt;/a&gt; to the Big Five personality traits, providing insights into an individual&amp;rsquo;s behavior and preferences.
+These digital traces are not just passive records, they actively contribute to the construction of our digital personas. Machine learning algorithms can analyze this data to &lt;a class="link" href="https://pubmed.ncbi.nlm.nih.gov/38753373/" target="_blank" rel="noopener"
+&gt;predict personality traits&lt;/a&gt;, highlighting the intimate connection between our data and our identities.&lt;/p&gt;
+&lt;h2 id="the-case-for-localstorage"&gt;The Case for Local Storage
+&lt;/h2&gt;&lt;p&gt;To mitigate these risks, transitioning to local storage solutions is a prudent strategy. By maintaining data on personal devices or dedicated local servers, individuals retain full control over their information, ensuring accessibility regardless of external circumstances. This approach not only safeguards against unforeseen disruptions but also enhances privacy and data security.&lt;/p&gt;
+&lt;p&gt;Recognizing the need for accessible local storage management, the &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;Anagnorisis&lt;/a&gt; project is developing as a way to assist users in organizing and preserving their data effectively. The idea behind Anagnorisis is to offer a set of tools that facilitate migration from cloud services such as Notion, Spotify, Pinterest or Youtube to local environments, allowing users to easily find, rate and enjoy their data just as effectively as with any of these services. By providing a user-friendly interface and AI-powered features, Anagnorisis ensures that personal data remains under the user&amp;rsquo;s control, protected from external threats and accessible for future generations.&lt;/p&gt;
+&lt;h2 id="digital-immortality-through-data-preservation"&gt;Digital Immortality Through Data Preservation
+&lt;/h2&gt;&lt;p&gt;While preserving the human mind in its entirety remains beyond current technological capabilities, each piece of data we create serves as a fragment of our identity. By conscientiously preserving this data, we offer future generations the opportunity to reconstruct a digital approximation of our personalities. This form of digital immortality is attainable today, allowing us to leave behind a legacy that extends beyond our physical existence. The ghost of our past self that can support our descendants way beyond our physical death.&lt;/p&gt;
+&lt;p&gt;Moreover, by engaging in this conscious attempt to preserve our personality, we may begin to treat our data differently. Instead of hoarding vast amounts of trivial, mostly situational information, that happened to be stored on our SSD and hard drives, we might prioritize storing only the most important and meaningful parts of it. This approach encourages us to reflect on the value of our contributions and fosters a more intentional interaction with our digital environment. Writing down our thoughts more frequently - perhaps not for others to read but as a way to create more data points. These records can serve as the basis for training future machine learning models, creating digital constructs that closely resemble our true selves.&lt;/p&gt;
+&lt;h2 id="in-theend"&gt;In the end
+&lt;/h2&gt;&lt;p&gt;While cloud services offer undeniable convenience, the potential risks associated with relinquishing control over personal data cannot be overlooked. Embracing local storage solutions, supported by tools like Anagnorisis, provides a secure and reliable alternative, preserving the integrity and accessibility of our digital lives.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Anagnorisis: Images Module Preview (v0.1.0)</title><link>https://volotat.github.io/video/2024-10-21-anagnorisis.-images-module-preview-v0.1.0/</link><pubDate>Mon, 21 Oct 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/video/2024-10-21-anagnorisis.-images-module-preview-v0.1.0/</guid><description>&lt;img src="https://volotat.github.io/video/2024-10-21-anagnorisis.-images-module-preview-v0.1.0/Anagnorisis.%20Images%20Module%20Preview%20%28v0.1.0%29.jpeg" alt="Featured image of post Anagnorisis: Images Module Preview (v0.1.0)" /&gt;&lt;p&gt;Anagnorisis is a privacy-first, local recommendation and search system. Version 0.1.0 introduces the Images module, allowing you to manage and enjoy your local image library with powerful search capabilities, personalized recommendations, and a user-friendly interface—all running 100% locally on your machine.&lt;/p&gt;
+&lt;p&gt;Background audio: PhonZz - Angelic Pad Loop&lt;br&gt;
+GitHub: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Below is the transcription of the video.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Welcome to the ‘Anagnorisis’ &amp;lsquo;Images&amp;rsquo; module. ‘Anagnorisis’ is an open-source local recommendation system designed to let you search, filter and process your personal data, securely on your local machine with the help of an AI-based recommendation engine that learns from your feedback.&lt;/p&gt;
+&lt;p&gt;First, set up your image library path. Copy your local image folder path into the &amp;lsquo;Path to local image library&amp;rsquo; field and press the ‘Save’ button. This initiates a process that gathers image hashes, setting up the caching system.&lt;/p&gt;
+&lt;p&gt;Once this is done, click on any image to enlarge it. You’ll see a rating bar at the bottom, allowing you to rate images from 0 to 10. Ratings are stored in the database for later use in training your personalized image evaluation model.&lt;/p&gt;
+&lt;p&gt;The module supports text-based semantic image search. Enter any text describing an image you want to find and press the ‘Search ‘button. The system will retrieve images most relevant to your query.&lt;/p&gt;
+&lt;p&gt;There are multiple filtering options included in the module. For example ‘Text search’ might be used to filter out categories like &amp;lsquo;NSFW&amp;rsquo; or other specific categories of images.&lt;/p&gt;
+&lt;p&gt;‘Similarity filtering’ groups visually similar images, allowing you to quickly identify and remove duplicates and see clusters of images that are presented in your image library.&lt;/p&gt;
+&lt;p&gt;‘Resolution’ filtering might help you find images that do or do not meet your size requirements.&lt;/p&gt;
+&lt;p&gt;‘Proportion’ filtering provides a clear way to go from wide to tall images in your dataset.&lt;/p&gt;
+&lt;p&gt;‘File size’ filtering might help you find and eliminate excessively large or small files.&lt;/p&gt;
+&lt;p&gt;‘Random’ filtering enables quick dataset exploration.&lt;/p&gt;
+&lt;p&gt;And finally, ‘Rating-based’ filtering is effective for excluding low-quality or unwanted images once your model is trained, prioritizing your ratings when available, or using model predictions when not.&lt;/p&gt;
+&lt;p&gt;To train the model, you have to rate some amount of images, proceed to the ‘Train’ page and press ‘Train image evaluator’ button. After training, return to the ‘Images’ page. Now the system will rate new images as if it was rated by you. If you do not agree with the rating you can simply change it and train the model again, getting the model that is more and more aligned to your preferences.,&lt;/p&gt;
+&lt;p&gt;Thank you for your attention. Till the next time.&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 2: The Music Recommendation Algorithm.</title><link>https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/</link><pubDate>Sun, 22 Sep 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-2-the-music-recommendation-algorithm/AI.jpg" alt="Featured image of post Anagnorisis. Part 2: The Music Recommendation Algorithm." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;One of the main ideas of Anagnorisis is to have completely open recommendation engine available for users to not only view but also modify as they wish. When a user uses the music player integrated into the project, they have the ability to influence how often songs are played by rating them and based on those ratings training personal model that can estimate the ratings of the user.&lt;/p&gt;
+&lt;p&gt;In particular the mechanism looks like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;User sets up the path to local music folder&lt;/li&gt;
+&lt;li&gt;Rates some of the songs according to their own preferences&lt;/li&gt;
+&lt;li&gt;After gathering some data goes to “Train” page and press “Train music evaluator” to train the preference model&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After the training is complete one can enjoy their music, but this time, when the music is selected it will be rated by the model (in case it was not rated by the user already) and therefore adjust the probability of it occurring in the playlist.&lt;/p&gt;
+&lt;p&gt;To calculate the actual probability, the music recommendation system combines various factors — user ratings, model predictions, play history, and skips, as well as time since the last play of the song — into a mathematical formula that determines the probability of each song being selected. By balancing these influences, the system provides a personalized and dynamic music recommendation experience. Below is a more detailed explanation of the math behind the algorithm.&lt;/p&gt;
+&lt;h2 id="music-recommendation-system"&gt;Music recommendation system
+&lt;/h2&gt;&lt;p&gt;Music recommendations are based on the two scores: user scores and internal score. While the user score is static, the internal score is dependent on the act of listening. The initial internal score is always 0, it gets higher if the user listens to the whole song and gets lower if the user skips it.&lt;/p&gt;
+&lt;h2 id="calculating-probabilies-for-song-selection"&gt;Calculating probabilies for song selection
+&lt;/h2&gt;&lt;h3 id="user-ratings-and-missing-data"&gt;User Ratings and Missing Data
+&lt;/h3&gt;&lt;p&gt;The starting point is user ratings. If a song has a rating, it uses that; if not, it uses a fallback mechanism.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;User rating&lt;/strong&gt;: $ R_u $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model rating&lt;/strong&gt;: $ R_m $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mean user rating&lt;/strong&gt;: $ R_{\text{mean}} $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For each song, the system checks whether a user or model rating exists. If neither is present, the system assumes the rating is the mean value of all user ratings.&lt;/p&gt;
+$$
+R = \begin{cases}
+R_u &amp; \text{if } R_u \text{ exists} \\
+R_m &amp; \text{if } R_u \text{ does not exist and } R_m \text{ exists} \\
+R_{\text{mean}} &amp; \text{if neither } R_u \text{ nor } R_m \text{ exists}
+\end{cases}
+$$&lt;p&gt;This ensures every song gets a score.&lt;/p&gt;
+&lt;h3 id="adjusting-and-normalizing-scores"&gt;Adjusting and Normalizing Scores
+&lt;/h3&gt;&lt;p&gt;Once the ratings are gathered, they need to be adjusted for fairness. The system normalizes them and adds some weight to higher-rated songs. The normalization process is:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ensure no score is zero&lt;/strong&gt; by adding a small constant (0.1) to the score:&lt;/p&gt;
+&lt;p&gt;$ R' = \max(0.1, R) $&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Amplify high ratings&lt;/strong&gt; by normalizing the scores and then squaring them to give higher-rated songs more weight:&lt;/p&gt;
+&lt;p&gt;$ R_{\text{adjusted}} = \left( \frac{R'}{10} \right)^2 $&lt;/p&gt;
+&lt;p&gt;This squaring makes songs with higher ratings much more likely to be chosen, while ensuring lower-rated songs still have a small chance.&lt;/p&gt;
+&lt;h3 id="skip-and-play-history"&gt;Skip and Play History
+&lt;/h3&gt;&lt;p&gt;The next adjustment comes from considering how often a song has been played versus skipped:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Full plays&lt;/strong&gt;: $ P_f $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Skips&lt;/strong&gt;: $ P_s $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;strong&gt;skip score&lt;/strong&gt; is calculated using the difference between full plays and skips, normalized by an empirically chosen factor of 5.&lt;/p&gt;
+&lt;p&gt;$ S_{\text{skip}} = \sigma \left( \frac{5 + P_f - P_s}{5} \right) $&lt;/p&gt;
+&lt;p&gt;where σ(x) is the &lt;strong&gt;sigmoid function&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;$ \sigma(x) = \frac{1}{1 + e^{-x}} $&lt;/p&gt;
+&lt;p&gt;This ensures that the skip score stays in a meaningful range between 0 and 1.&lt;/p&gt;
+&lt;h3 id="time-since-last-played"&gt;Time Since Last Played
+&lt;/h3&gt;&lt;p&gt;To promote variety, the system boosts the chances for songs that haven’t been played recently. The system calculates a &lt;strong&gt;last played score&lt;/strong&gt; based on how recently the song was played compared to other songs.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Index of song&lt;/strong&gt; in the list sorted by last played: $ I_{\text{last}} $&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Total number of songs&lt;/strong&gt;: $ N $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The last played score is calculated as:&lt;/p&gt;
+&lt;p&gt;$ S_{\text{time}} = \frac{I_{\text{last}}}{N} $&lt;/p&gt;
+&lt;p&gt;Songs that haven’t been played in a long time get a higher score, while recently played songs get a lower score.&lt;/p&gt;
+&lt;h3 id="final-score-calculation"&gt;Final Score Calculation
+&lt;/h3&gt;&lt;p&gt;Now that we have all the factors:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Adjusted rating: $ R_{\text{adjusted}} $&lt;/li&gt;
+&lt;li&gt;Skip score: $ S_{\text{skip}} $&lt;/li&gt;
+&lt;li&gt;Last played score: $ S_{\text{time}} $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The final score for each song is a product of these three components:&lt;/p&gt;
+&lt;p&gt;$ S_{\text{final}} = R_{\text{adjusted}} \times S_{\text{skip}} \times S_{\text{time}} $&lt;/p&gt;
+&lt;p&gt;This final score \( S_{\text{final}} \) represents how likely a song is to be selected.&lt;/p&gt;
+&lt;h3 id="calculating-probabilities"&gt;Calculating Probabilities
+&lt;/h3&gt;&lt;p&gt;Once the final scores are calculated for all songs, they are converted into probabilities. The probability of a song $ i $ being selected is its score divided by the sum of all scores:&lt;/p&gt;
+&lt;p&gt;$ P_i = \frac{S_{\text{final}, i}}{\sum_{j=1}^{N} S_{\text{final}, j}} $&lt;/p&gt;
+&lt;p&gt;This ensures that the probabilities sum to 1, and each song’s chance of being selected is proportional to its score.&lt;/p&gt;
+&lt;h3 id="random-selection"&gt;Random Selection
+&lt;/h3&gt;&lt;p&gt;Finally, the system uses these probabilities to randomly select a song. A song with a higher probability $ P_i $ is more likely to be chosen, but even songs with lower probabilities still have a chance based on their final score.&lt;/p&gt;
+&lt;h3 id="example-calculation"&gt;Example Calculation
+&lt;/h3&gt;&lt;p&gt;Let’s say we have three songs with the following details:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Song&lt;/th&gt;
+&lt;th&gt;User Rating&lt;/th&gt;
+&lt;th&gt;Full Plays&lt;/th&gt;
+&lt;th&gt;Skips&lt;/th&gt;
+&lt;th&gt;Last Played (days ago)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;A&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Adjusted Ratings&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ R_{\text{adjusted}} = \left( \frac{8}{10} \right)^2 = 0.64 $&lt;/li&gt;
+&lt;li&gt;Song B: $ R_{\text{adjusted}} = \left( \frac{6}{10} \right)^2 = 0.36 $&lt;/li&gt;
+&lt;li&gt;Song C uses the mean rating (say 7): $ R_{\text{adjusted}} = \left( \frac{7}{10} \right)^2 = 0.49 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Skip Scores&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ S_{\text{skip}} = \sigma \left( \frac{5 + 10 - 2}{5} \right) = \sigma(2.6) \approx 0.93 $&lt;/li&gt;
+&lt;li&gt;Song B: $ S_{\text{skip}} = \sigma \left( \frac{5 + 5 - 3}{5} \right) = \sigma(1.4) \approx 0.80 $&lt;/li&gt;
+&lt;li&gt;Song C: $ S_{\text{skip}} = \sigma \left( \frac{5 + 2 - 5}{5} \right) = \sigma(0.4) \approx 0.60 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Last Played Scores&lt;/strong&gt; (let’s assume there are 3 songs total):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A (played 7 days ago): $ S_{\text{time}} = \frac{2}{3} \approx 0.67 $&lt;/li&gt;
+&lt;li&gt;Song B (played 2 days ago): $ S_{\text{time}} = \frac{1}{3} \approx 0.33 $&lt;/li&gt;
+&lt;li&gt;Song C (played 30 days ago): $ S_{\text{time}} = \frac{3}{3} = 1.0 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Final Scores&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Song A: $ S_{\text{final}} = 0.64 \times 0.93 \times 0.67 \approx 0.40 $&lt;/li&gt;
+&lt;li&gt;Song B: $ S_{\text{final}} = 0.36 \times 0.80 \times 0.33 \approx 0.095 $&lt;/li&gt;
+&lt;li&gt;Song C: $ S_{\text{final}} = 0.49 \times 0.60 \times 1.0 \approx 0.29 $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Probabilities&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;$ P_A = \frac{0.40}{0.40 + 0.095 + 0.29} \approx 0.50 $&lt;br&gt;
+$ P_B = \frac{0.095}{0.40 + 0.095 + 0.29} \approx 0.12 $&lt;br&gt;
+$ P_C = \frac{0.29}{0.40 + 0.095 + 0.29} \approx 0.36 $&lt;/p&gt;
+&lt;p&gt;In this case, Song A has a 50% chance of being selected, Song B has a 12% chance, and Song C has a 36% chance.&lt;/p&gt;
+&lt;h2 id="future-plans"&gt;Future plans
+&lt;/h2&gt;&lt;p&gt;In future I would also like to add more different options of building a current playlist. One of the ideas is a “chain mode” that takes selected by the user song as a seed and finds the most similar song, based on the embeddings, then finds the most similar to a next song and so on.&lt;/p&gt;
+&lt;p&gt;In case there would be a &lt;a class="link" href="https://github.com/openai/CLIP" target="_blank" rel="noopener"
+&gt;CLIP&lt;/a&gt;-like model for audio in the future, I would also like to implement prompt-based playlist generation. One could simply describe the mood of the music they would like to listen and the proper playlist be generated on the fly from this description.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Anagnorisis. Part 1: A Vision for Better Information Management.</title><link>https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/</link><pubDate>Sun, 12 May 2024 00:00:00 +0000</pubDate><guid>https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/</guid><description>&lt;img src="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/cover.jpg" alt="Featured image of post Anagnorisis. Part 1: A Vision for Better Information Management." /&gt;&lt;h2 id="introduction"&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;Many years ago there was a music streaming service called &lt;a class="link" href="https://en.wikipedia.org/wiki/Grooveshark" target="_blank" rel="noopener"
+&gt;Grooveshark&lt;/a&gt;. While being one of the first of such services it allowed things that would be unheard of today — free access to a huge music library and an option for any user to upload their own music to the website. This created quite a unique environment where you can easily find even the most obscure music you like to listen to. Furthermore there was a &amp;ldquo;radio mode&amp;rdquo; that automatically selected the music that you would like to listen, basically the same as any other today&amp;rsquo;s streaming service with one little exception — it was actually good. I was able to listen to music for hours and almost always it was the music I like that allowed me to discover many new bands that I like till this day. Unfortunately, on April 30, 2015 the site was shut down as part of a settlement of the copyright infringement lawsuits between the service and Universal Music Group, Sony Music Entertainment, and Warner Music Group.&lt;/p&gt;
+&lt;p&gt;Since then I have tried many other alternatives such as spotify, pandora, youtube music and others. None of them ever worked for me as well as Grooveshark. First of all for a long time many of them simply were not working for my country of residence, but even when they start working there was a problem — recommendations worked really badly. Mostly the recommendations were good only for the first few songs, but after that it always started to diverge into &amp;ldquo;popular&amp;rdquo; or rather &amp;ldquo;promoted&amp;rdquo; music that I don&amp;rsquo;t really like. And yes, it did not matter if it was paid or free version. The suspicion started to grow, that many services use music recommendation engines as subtle manipulation to promote some particular artists rather than satisfying my needs as a customer.&lt;/p&gt;
+&lt;p&gt;This led me into rethinking the whole idea of recommendation algorithms and how much of it is what we want to see, and how much of it is what the people in control of it want or don&amp;rsquo;t want to show.&lt;/p&gt;
+&lt;h2 id="controlling-the-algorithm-not-the-other-wayaround"&gt;Controlling the Algorithm. Not the other way around.
+&lt;/h2&gt;&lt;p&gt;There are several different ways of how we can sort information. Some popular social media, such as &lt;a class="link" href="https://www.reddit.com/" target="_blank" rel="noopener"
+&gt;Reddit&lt;/a&gt; heavily rely on direct human feedback for it. While this approach is clearly working it also requires a lot of moderation efforts. And because of its nature, posts on reddit get more attention when they satisfy the interest of the whole community rather than a particular person.&lt;/p&gt;
+&lt;p&gt;Another widespread approach that recommendation systems use is &lt;a class="link" href="https://en.wikipedia.org/wiki/Collaborative_filtering" target="_blank" rel="noopener"
+&gt;Collaborative filtering&lt;/a&gt;. It uses personal feedback from some users to predict preferences of other users. Websites such as Spotify or Youtube in its core heavily rely on this approach or at least relied in the past. The main drawback of this approach that you do need a lot of users and their personal data to make it work and even then there are no guarantee that it will always work for all users as they might have some set of interests that were not seen previously.&lt;/p&gt;
+&lt;p&gt;Finally with the rise of Machine Learning a new approach has risen — &lt;a class="link" href="https://arxiv.org/pdf/2310.18608.pdf" target="_blank" rel="noopener"
+&gt;Embedding-based recommender systems&lt;/a&gt;. While this is an umbrella term that implies many different techniques, the general idea behind it is to use embeddings generated by some ML model directly from the data to then predict how well this data is suited for a particular user. This is the only approach that could work without a huge user base, using only a single user feedback. As such, it opens a new exciting possibility — a recommendation system that works completely locally on users&amp;rsquo; personal devices. If implemented as an open source project such a recommendation system would be completely open to the user and controlled only by the user.&lt;/p&gt;
+&lt;h2 id="the-nextfrontier"&gt;The Next Frontier
+&lt;/h2&gt;&lt;p&gt;Let&amp;rsquo;s spend a minute trying to imagine how a &amp;ldquo;perfect&amp;rdquo; recommendation system might work. For a brief moment imagine that our system is totally agnostic to what kind of data it can process. No matter if it is music, videos, news or anything else. To extract embeddings of the data we will use some ML model that could take any data as an input and produce a meaningful embedding of it.&lt;/p&gt;
+&lt;p&gt;Here is some basic principle that I would like this system to satisfy:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;First of all, it should give valuable recommendations. Obviously. It should allow to sort and filter the vast amount of information.&lt;/li&gt;
+&lt;li&gt;All the data about the user and about the user&amp;rsquo;s preferences should stay on their own personal devices and should be accessible only by the users.&lt;/li&gt;
+&lt;li&gt;It should learn from the user&amp;rsquo;s feedback and change its recommendations alongside changing interests of the user.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can use our ML model to generate embedding from the big pile of data, and present some of this data to the user in the form of UI interface. Like a music player, for example. Then we collect user feedback about the data and train another ML model that takes embeddings as inputs and predicts some score representing how relevant this data is for the user. We then can use this new model to suggest better recommendations, collect more data and repeat this process again and again, providing a more and more satisfying experience. And all of those steps might be performed locally, just as we wished earlier.&lt;/p&gt;
+&lt;p&gt;Here is the little diagram showing how the dataflow in such system may look like:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph.png"
+width="3646"
+height="2394"
+srcset="https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph_hu_ba1a9f042994e1b0.png 480w, https://volotat.github.io/p/anagnorisis-part-1-a-vision-for-better-information-management/Anagnorisis_graph_hu_c6e29faaaf258bb3.png 1024w"
+loading="lazy"
+alt="A rough representation on how such recommendation system might work"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="365px"
+&gt;&lt;/p&gt;
+&lt;p&gt;I particularly like the option of using &lt;a class="link" href="https://en.wikipedia.org/wiki/Peer-to-peer" target="_blank" rel="noopener"
+&gt;p2p Network&lt;/a&gt; as a main datasource of such system. In this case we can completely move away from centralized services that control the flow of information and give users a choice to choose what kind of data they need, without any need for content moderation or sharing their personal data. To speed up calculations and not spend time and resources downloading unnecessary data, the data embeddings might be precalculated on the data provider side. So we can check if the data is valuable for us at first and only then accessing it.&lt;/p&gt;
+&lt;p&gt;To give a rating for a particular embedding we can train a model from scratch that takes embeddings as an input and predicts a value that estimates a score that a user would give to the data themselves. Right now Anagnorisis trains a separate evaluation network for each type of data, but in the future I would like to explore a more general approach, for example a multimodal transformer that could take text and embeddings as its input and produce interest scores as an output. While it would be computationally much slower than using some specialized model, it opens up new amazing possibilities that will be discussed later in this series.&lt;/p&gt;
+&lt;p&gt;Github: &lt;a class="link" href="https://github.com/volotat/Anagnorisis" target="_blank" rel="noopener"
+&gt;https://github.com/volotat/Anagnorisis&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
