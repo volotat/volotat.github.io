@@ -37,7 +37,7 @@ Alongside this video, the server automatically generates a tiny, supplementary f
 This `.meta` file is the secret sauce. It acts as an extremely compressed proxy for the actual media. It contains basic metadata (title, author, length) but, most importantly, it contains the objective description of this file. What it is depicting, what happening in this video, and if there is some important talking the full transcription of that video. All of that could already be produced automaticaly by modern ML models like [MiniCPM-o-4_5](https://huggingface.co/openbmb/MiniCPM-o-4_5) or [OpenAI-Whisper](https://huggingface.co/openai/whisper-large-v3) completely locally with modest hardware requirements. Because it is just text you can change it in any way you like at any moment to make the description more accurate if the automatic description was not good enough. From that moment, this file acts like an extremely compressed version of that video, that is also readable by both humans and machines. If the original video is 2 Gigabytes, the `.meta` file could be just a few Kilobytes. 
 
 `my_awesome_video.mp4  (2.1 GB)`  
-`my_awesome_video.meta (4.2 KB)`  
+`my_awesome_video.mp4.meta (4.2 KB)`  
 
 The key is that description generation only needs to be done *once* per file. This leads to a beautiful separation of concerns: you can use your powerful, power-hungry desktop rig to ingest and annotate the files with local AI, and then move those files (and their `.meta` companions) to a cheap, low-power server (like a Raspberry Pi) to actually host them.
 
