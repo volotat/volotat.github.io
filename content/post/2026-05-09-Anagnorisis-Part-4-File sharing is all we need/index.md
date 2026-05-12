@@ -62,9 +62,9 @@ Because the recommendation engine runs entirely on your local machine, **you nev
 
 Furthermore, this obliterates the concept of platform censorship and shadowbanning. Because every creator hosts their own simple file-sharing service, they completely control the data shared through it. There is no corporate overlord to quietly suppress a video because it isn't "advertiser-friendly." 
 
-Conversely, all "moderation" shifts to where it belongs: the client side. If you don't want to see certain types of content, your local Anagnorisis model naturally filters it out based on your preferences. You build your own boundaries, rather than having an opaque algorithm dictate what is safe or appropriate for you to view. It is an honest, mathematically transparent transaction between the creator's output and your personal taste.
+Conversely, all "moderation" shifts to where it belongs: the client side. If you don't want to see certain types of content, your local recommendation model naturally filters it out based on your preferences. You build your own boundaries, rather than having an opaque algorithm dictate what is safe or appropriate for you to view. It is an honest, mathematically transparent transaction between the creator's output and your personal taste.
 
-The "algorithm" works for *you*, not for advertisers. If a creator makes something weird, controversial, or avant-garde, they are free to host it. If your local agent knows you like weird, avant-garde art, it will surface it to you. There is no middleman deciding what is "brand safe."
+The "algorithm" works for *you*, not for advertisers. If a creator makes something weird, controversial, or avant-garde, they are free to host it. If your local recommendation system knows you like weird, avant-garde art, it will surface it to you. There is no middleman deciding what is "brand safe."
 
 ## Local Moderation
 
