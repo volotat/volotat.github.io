@@ -54,6 +54,8 @@ Because these text files are minuscule, your client can sweep through thousands 
 
 If the local model scores a `.meta` file highly, Anagnorisis presents it to you. Only when you click "play" does the actual 2GB media file stream from the creator's server. 
 
+![Each file presented by Anagnorisis has both user's rating (direct feedback) and the model's rating (predicted).](aganorisis-0.3.16-music-module.png)
+
 ## Privacy, Agency, and the End of Censorship
 
 This leads to the most radical and liberating part of this architecture. 
@@ -78,7 +80,7 @@ When "moderation" shifts to the client side in automated and predictable fashion
 
 ## Building It With Anagnorisis
 
-![Process of training universal-evaluator model inside Anagnorisis.](Anagnorisis-training-evaluator.png)
+![Process of training universal-evaluator model inside Anagnorisis.](anagnorisis-training-evaluator.png)
 
 The incredible thing is that this isn't just an idea. Almost all of the necessary components to build this system are already implemented in the Anagnorisis project. 
 
