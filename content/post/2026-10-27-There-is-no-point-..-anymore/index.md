@@ -26,7 +26,7 @@ Now, this shift is starting to break all the assumptions that were put into soft
 
 ## Post von-Neumann
 
-The typical von-Neumann architecture introduced in 1945 was built on the assumption that code executed on the processing unit is a mostly static, pre-built binary stored in memory. It had to contain a massive amount of fallback cases for different types of hardware and architectures to be supported. For more than eighty years, this assumption held, largely because it was the only way to keep the ever-growing complexity of computing systems manageable by a limited human brain. We built compilers, runtime environments, and operating systems because humans could never hope to write raw, optimal machine code on the fly for every single clock cycle.
+The typical von-Neumann architecture introduced in 1945 was built on the assumption that code executed on the processing unit is a mostly static, pre-built binary stored in memory. It had to contain a massive amount of fallback cases for different types of hardware and architectures to be supported. For more than eighty years, this assumption held, largely because it was the only way to keep the ever-growing complexity of computing systems manageable by a limited human brain. We built compilers, runtime environments, and operating systems because humans could never hope to write raw, optimal machine code on the fly.
 
 I would like to argue that the code of tomorrow is never stored in memory. Some pieces of it, templates and reusable structural elements, will endure, but not all of it. 
 
