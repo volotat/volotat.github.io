@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
      width="1920" height="1080" viewBox="0 0 1920 1080" version="1.1">
-  <title>Post-Von Neumann</title>
+  <title>Post-Compiler</title>
   <!-- John von Neumann as a halftone of squares that is coming apart; in front
        of him an NPU writes code on the fly and drives a smaller CPU and GPU.
        Portrait traced from his Los Alamos portrait
@@ -2001,7 +2001,7 @@
 
 
   <g id="title" font-family="'Lato Heavy', Lato, sans-serif" font-weight="800" font-size="165" fill="#ffffff">
-    <text id="title-post" x="80" y="245">Post-Von</text>
-    <text id="title-neumann" x="80" y="415">Neumann</text>
+    <text id="title-post" x="80" y="245">Post-</text>
+    <text id="title-compiler" x="80" y="415">Compiler</text>
   </g>
 </svg>

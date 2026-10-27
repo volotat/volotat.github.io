@@ -1,6 +1,6 @@
 ---
 title: "There is No Point in Compilers, OS or Static Code Anymore."
-description: If no human will ever read code again, why are we still compiling it? An argument for post-von Neumann computing, where operating systems and static binaries are replaced by living, continually learning models.
+description: If no human will ever read code again, why are we still compiling it? An argument for post-compiler computing, where operating systems and static binaries are replaced by living, continually learning models.
 slug: post-von-neumann-computing
 date: 2026-10-27 00:00:00+0000
 image: cover.png
@@ -24,15 +24,15 @@ The best coding models assisted with the best harnesses are already better at wr
 
 Now, this shift is starting to break all the assumptions that were put into software development over the decades. It started with the so-called SaaS-pocalypse, where almost anyone can vibe-code any service they need in an afternoon, and it leads straight to a much more fundamental question: **why do models still have to output human-readable code if no human is ever going to read it anyway?**
 
-## Post von-Neumann
+## The Post-Compiler Era
 
-The typical von-Neumann architecture introduced in 1945 was built on the assumption that code executed on the processing unit is a mostly static, pre-built binary stored in memory. It had to contain a massive amount of fallback cases for different types of hardware and architectures to be supported. For more than eighty years, this assumption held, largely because it was the only way to keep the ever-growing complexity of computing systems manageable by a limited human brain. We built compilers, runtime environments, and operating systems because humans could never hope to write raw, optimal machine code on the fly.
+Ever since the stored-program computer was described in 1945, the code executed on the processing unit has been a mostly static, pre-built binary stored in memory. It had to contain a massive amount of fallback cases for different types of hardware and architectures to be supported. For more than eighty years, this assumption held, largely because it was the only way to keep the ever-growing complexity of computing systems manageable by a limited human brain. We built compilers, runtime environments, and operating systems because humans could never hope to write raw, optimal machine code on the fly.
 
 I would like to argue that the code of tomorrow is never stored in memory. Some pieces of it, templates and reusable structural elements, will endure, but not all of it. 
 
 Code, if you can even call it that anymore, is going to be written and executed on the fly by an AI system that exists on a dedicated neural processing unit, using the CPU and GPU as a pure processing power warehouse to calculate what is needed and produce an output for the end user. It will generate pure instructions in the native binary format, sent to the hardware in just enough quantity to make it busy enough to think about the current task and prepare the next batch of instructions, exactly in a form the processing units expect them.
 
-![The von-Neumann architecture next to the post von-Neumann one](Von_Neumann_vs_Post_Von_Neumann.png)
+![The von-Neumann architecture next to the post-compiler one](Von_Neumann_vs_Post_Von_Neumann.png)
 
 
 ## Not in the Cloud
