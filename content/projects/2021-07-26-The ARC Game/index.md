@@ -31,5 +31,6 @@ The game presents visual tasks consisting of grid pairs that represent a transfo
 *   [System 2 Reasoning for Human-AI Alignment: Generality and Adaptivity via ARC-AG](https://arxiv.org/pdf/2410.07866)
 *   [Addressing and Visualizing Misalignments in Human Task-Solving Trajectories](https://dl.acm.org/doi/abs/10.1145/3711896.3736831)
 *   [Knowledge Graph and Symbolic Approaches for the ARC-AGI-2 Benchmark: Architecture, Performance, and Implications](https://img1.wsimg.com/blobby/go/a4b4f845-e891-408f-8762-51388e2f8c28/downloads/c745cb87-bbc2-459f-8b02-8badad8a2bbe/whitepaper.pdf?ver=1757601604681)
+*   [State of the ARC: An Investigation of Learning Mechanisms for the Abstraction and Reasoning Corpus](https://www.techrxiv.org/doi/pdf/10.36227/techrxiv.177162443.32578599/v1)
 
 [Play the Game](https://volotat.github.io/ARC-Game/) | [View on GitHub](https://github.com/volotat/ARC-Game)
