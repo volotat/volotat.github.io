@@ -14,7 +14,7 @@ tags:
     - Singularity
 ---
 
-### The Future is Now
+## The Future is Now
 
 A bit more than a year ago, I wrote an [essay](https://volotat.github.io/p/the-sunset-of-human-readable-code/) with my thoughts on the agentic coding wave that was only starting to gain traction back then. My main conclusion was that at some point in the future, we would have to pass our own nurturing love for programming to the AI completely. And when that happens, there will be no way back, because the machine will eventually do things that people cannot truly understand in their full capacity, as the sheer amount and complexity of code produced will simply be impractical for a human brain to comprehend.
 
@@ -24,7 +24,7 @@ The best coding models assisted with the best harnesses are already better at wr
 
 Now, this shift is starting to break all the assumptions that were put into software development over the decades. It started with the so-called SaaS-pocalypse, where almost anyone can vibe-code any service they need in an afternoon, and it leads straight to a much more fundamental question: **why do models still have to output human-readable code if no human is ever going to read it anyway?**
 
-### Post von-Neumann
+## Post von-Neumann
 
 The typical von-Neumann architecture introduced in 1945 was built on the assumption that code executed on the processing unit is a mostly static, pre-built binary stored in memory. It had to contain a massive amount of fallback cases for different types of hardware and architectures to be supported. For more than eighty years, this assumption held, largely because it was the only way to keep the ever-growing complexity of computing systems manageable by a limited human brain. We built compilers, runtime environments, and operating systems because humans could never hope to write raw, optimal machine code on the fly for every single clock cycle.
 
@@ -35,7 +35,7 @@ Code, if you can even call it that anymore, is going to be written and executed 
 ![The von-Neumann architecture next to the post von-Neumann one](Von_Neumann_vs_Post_Von_Neumann.png)
 
 
-### Not in the Cloud
+## Not in the Cloud
 
 When we imagine this kind of future, the immediate temptation is to picture today's massive frontier models sitting in the cloud, writing scripts and managing our devices. But a static, cloud-tethered model is fundamentally incapable of acting as the substrate for personal computing. 
 
@@ -43,7 +43,7 @@ Every standard large language model we have today is a frozen snapshot. It was t
 
 This is a large part of why I started experimenting with [mini-AGI](https://github.com/volotat/mini-AGI). I wanted to see if it was possible to build a model that doesn't rely on tokenizers, lives on modest consumer hardware, pages its weights from disk, and learns continually from a single stream of raw bytes without catastrophic forgetting. A model like that is not meant to be just another chatbot, it is an early proof of concept for the kind of adaptable, living neural core that could actually sit on local silicon and mediate between human intent and raw hardware.
 
-### Ephemeral Instructions
+## Ephemeral Instructions
 
 In this new wave of computing, you simply do not need an operating system, a BIOS, static device drivers, or millions of lines of defensive code where ninety-nine percent of it sits completely dormant on disk. 
 
@@ -51,7 +51,7 @@ The model does not need a human engineer to write an abstract driver layer to co
 
 When you want to accomplish something, the system does not load an application binary from a drive. It understands your intent, synthesizes the exact machine instructions required for that specific microsecond, sends them to the execution warehouse, and the code immediately evaporates the moment the result is computed. It existed only for the brief moment it was needed, tailored perfectly to the state of the machine at that exact point in time. It is extremely efficient, and completely alien to how we have thought about software for the last eighty years.
 
-### New Species
+## New Species
 
 For generations, we have treated personal computers as rigid, predictable, somewhat boring appliances. You buy a box with frozen specifications, install an operating system stamped out in a corporate factory, run static programs written by strangers, and watch the system slowly choke on registry bloat and accumulated updates until you eventually replace it.
 
