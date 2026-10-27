@@ -39,9 +39,9 @@ Code, if you can even call it that anymore, is going to be written and executed 
 
 When we imagine this kind of future, the immediate temptation is to picture today's massive frontier models sitting in the cloud, writing scripts and managing our devices. But a static, cloud-tethered model is fundamentally incapable of acting as the substrate for personal computing. 
 
-Every standard large language model we have today is a frozen snapshot. It was trained once at astronomical cost, cast in digital stone, and shipped with a hard cutoff date. It knows nothing about the specific machine in front of you, the timing of your memory bus, or the rhythm of what you are doing right now. And the moment you try to train it on your daily tasks, it forgets what it knew before. A frozen model living in a remote data center cannot organically adapt to your hardware or your life.
+Every standard large language model we have today is a frozen snapshot. It was trained once at astronomical cost, cast in digital stone, and shipped with a hard cutoff date. It knows nothing about the specific machine in front of you, the timing of your memory bus, or the rhythm of what you are doing right now. Even with the local model and a powerful harness like [Hermes](https://github.com/nousresearch/hermes-agent) at the moment you try to fine-tune the typical modern LLM on your daily tasks, it forgets what it knew before. A frozen model living in a remote data center is even worse at organically adapt to your hardware or your life.
 
-This is a large part of why I started experimenting with [mini-AGI](https://github.com/volotat/mini-AGI). I wanted to see if it was possible to build a model that doesn't rely on tokenizers, lives on modest consumer hardware, pages its weights from disk, and learns continually from a single stream of raw bytes without catastrophic forgetting. A model like that is not meant to be just another chatbot, it is an early proof of concept for the kind of adaptable, living neural core that could actually sit on local silicon and mediate between human intent and raw hardware.
+This flow of reasoning was a large part of why I started experimenting with [mini-AGI](https://github.com/volotat/mini-AGI). I wanted to see if it was possible to build a model that doesn't rely on tokenizers, lives on modest consumer hardware, and learns continually from a single stream of raw bytes. A model like that is not meant to be just another chatbot, but an early proof of concept for the kind of adaptable, living neural core that could actually sit on local silicon and mediate between human intent and raw hardware. It was an enormous surprise to see it actually working the first time I stated training the model in the "impossible" (as I believed it) streaming regime and seeing that it still learns without much signs of "catastrophic forgetting" visible. 
 
 ## Ephemeral Instructions
 
@@ -53,7 +53,7 @@ When you want to accomplish something, the system does not load an application b
 
 ## New Species
 
-For generations, we have treated personal computers as rigid, predictable, somewhat boring appliances. You buy a box with frozen specifications, install an operating system stamped out in a corporate factory, run static programs written by strangers, and watch the system slowly choke on registry bloat and accumulated updates until you eventually replace it.
+For generations, we have treated personal computers as rigid, predictable, somewhat boring appliances. You buy a box with frozen specifications, install an operating system stamped out in a corporate factory, run static programs written by strangers until you eventually replace it with better cold box, keeping only the data it had, but never the experiences it lived through.
 
 As we move toward continual, hardware-native intelligence, personal computers stop looking like boring machines and start looking much more like living, adaptable organisms that live alongside us. 
 
