@@ -14,6 +14,8 @@ tags:
     - Singularity
 ---
 
+*Prefer listening? This article is also available as an [audio version on YouTube](https://www.youtube.com/watch?v=ToPIjJda8bU).*
+
 ## The Future is Now
 
 A bit more than a year ago, I wrote an [essay](https://volotat.github.io/p/the-sunset-of-human-readable-code/) with my thoughts on the agentic coding wave that was only starting to gain traction back then. My main conclusion was that at some point in the future, we would have to pass our own nurturing love for programming to the AI completely. And when that happens, there will be no way back, because the machine will eventually do things that people cannot truly understand in their full capacity, as the sheer amount and complexity of code produced will simply be impractical for a human brain to comprehend.
