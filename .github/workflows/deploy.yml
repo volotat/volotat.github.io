@@ -39,6 +39,19 @@ jobs:
                   hugo-version: "latest"
                   extended: true
 
+            # Hugo >= 0.170 removed the built-in LibSass transpiler; the theme's
+            # SCSS now needs the standalone Dart Sass binary on $PATH.
+            - name: Install Dart Sass
+              env:
+                  DART_SASS_VERSION: 1.108.2
+              run: |
+                  curl -sSfLO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+                  mkdir -p "${HOME}/.local"
+                  tar -C "${HOME}/.local" -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+                  rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+                  echo "${HOME}/.local/dart-sass" >> "${GITHUB_PATH}"
+                  "${HOME}/.local/dart-sass/sass" --version
+
             - name: Build
               run: hugo --minify --gc
 
