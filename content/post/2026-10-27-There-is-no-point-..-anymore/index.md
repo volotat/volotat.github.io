@@ -1,6 +1,6 @@
 ---
 title: "There is No Point in Compilers, OS or Static Code Anymore."
-description: If no human will ever read code again, why are we still compiling it? An argument for post-compiler computing, where operating systems and static binaries are replaced by living, continually learning models.
+description: If no human will ever read code again, why are we still writing it? An argument for post-compiler computing, where operating systems and static binaries are replaced with generated on-the-fly instructions provided by on-chip continual learning models.
 slug: post-von-neumann-computing
 date: 2026-10-27 00:00:00+0000
 image: cover.png
